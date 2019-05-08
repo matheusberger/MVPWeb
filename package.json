@@ -1,0 +1,27 @@
+{
+  "name": "mvpweb",
+  "version": "1.0.0",
+  "description": "mvp web",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matheusberger/MVPWeb.git"
+  },
+  "keywords": [
+    "react",
+    "mvp",
+    "web"
+  ],
+  "author": "Berger",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matheusberger/MVPWeb/issues"
+  },
+  "homepage": "https://github.com/matheusberger/MVPWeb#readme",
+  "dependencies": {
+    "firebase": "^6.0.1"
+  }
+}
