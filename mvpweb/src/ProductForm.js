@@ -1,12 +1,29 @@
 import React from 'react';
+import _ from 'lodash';
 
 export default class ProductForm extends React.Component {
-		state = {
+	state = {
 		description: '',
 		brand: '',
 		price: '',
 		stock: {}
 	};
+
+	availableBrands = [];
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			description: '',
+			brand: '',
+			price: '',
+			stock: {}
+		};
+
+		console.log(props);
+		this.availableBrands = props;
+	}
 
 	change = (e) => {
 		this.setState({
@@ -26,6 +43,10 @@ export default class ProductForm extends React.Component {
 	}
 
 	render() {
+		var brands = _.map(this.availableBrands, (brand) => {
+			return <option key={brand.name}>{brand.name}</option>;
+		});
+
 		return (
 			<form>
 				<input
@@ -35,6 +56,7 @@ export default class ProductForm extends React.Component {
 				onChange={ e => this.change(e) }
 				/>
 				<br/>
+				<select>{brands}</select>
 				<input
 				name="brand"
 				placeholder='marca' 

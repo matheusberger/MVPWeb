@@ -1,8 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import * as firebase from 'firebase';
-import BrandForm from './BrandForm'
+import BrandForm from './BrandForm.js'
+import ProductForm from './ProductForm.js'
 
 
 class App extends React.Component {
@@ -23,7 +23,6 @@ class App extends React.Component {
     let brandsRef = database.ref().child('marcas');
 
     brandsRef.on('value', function(snapShot) {
-      console.log(snapShot.val());
       updateFunction(snapShot.val());
     });
   }
@@ -56,6 +55,9 @@ class App extends React.Component {
         <p>
           {JSON.stringify(this.state.brands, null, 2)}
         </p>
+        <div>
+          <ProductForm props={this.state.brands}/>
+        </div>
       </div>
     );
   }
