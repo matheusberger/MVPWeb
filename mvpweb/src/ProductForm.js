@@ -1,6 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 
+
+//turn this into controled component
 export default class ProductForm extends React.Component {
 	state = {
 		description: '',
@@ -20,9 +22,6 @@ export default class ProductForm extends React.Component {
 			price: '',
 			stock: {}
 		};
-
-		console.log(props);
-		this.availableBrands = props;
 	}
 
 	change = (e) => {
@@ -44,7 +43,7 @@ export default class ProductForm extends React.Component {
 
 	render() {
 		var brands = _.map(this.availableBrands, (brand) => {
-			return <option key={brand.name}>{brand.name}</option>;
+			return <option value={brand.id}> { brand.name } </option>;
 		});
 
 		return (
@@ -56,7 +55,9 @@ export default class ProductForm extends React.Component {
 				onChange={ e => this.change(e) }
 				/>
 				<br/>
-				<select>{brands}</select>
+				<select>
+					{brands}
+				</select>
 				<input
 				name="brand"
 				placeholder='marca' 

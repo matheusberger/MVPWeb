@@ -27,7 +27,7 @@ class App extends React.Component {
     });
   }
 
-  updateBrandList(newBrand) {
+  updateBrandList = (newBrand) => {
     var brands = this.state.brands.slice();
     brands.push(newBrand);
     this.setState({
@@ -48,15 +48,14 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          Cadastro de Marcas!
-        </header>
-        <BrandForm onSubmit={brandData => this.onSubmit(brandData)}/>
-        <p>
-          {JSON.stringify(this.state.brands, null, 2)}
-        </p>
         <div>
-          <ProductForm props={this.state.brands}/>
+          <BrandForm onSubmit={brandData => this.onSubmit(brandData)}/>
+          <p>
+            {JSON.stringify(this.state.brands, null, 2)}
+          </p>
+        </div>
+        <div>
+          <ProductForm props={this.state.brands.slice()}/>
         </div>
       </div>
     );
