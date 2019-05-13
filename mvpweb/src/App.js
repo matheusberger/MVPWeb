@@ -3,6 +3,7 @@ import './App.css';
 import * as firebase from 'firebase';
 import BrandForm from './BrandForm.js'
 import ProductForm from './ProductForm.js'
+import _ from 'lodash';
 
 
 class App extends React.Component {
@@ -15,15 +16,16 @@ class App extends React.Component {
     };
 
     this.updateBrandList = this.updateBrandList.bind(this);
-    this.getMarcas(this.updateBrandList);
   }
 
-  getMarcas(updateFunction) {
+  getBrands(updateFunction) {
     var database = firebase.database();
     let brandsRef = database.ref().child('marcas');
 
     brandsRef.on('value', function(snapShot) {
-      updateFunction(snapShot.val());
+      _.map(snapShot.val(), (brand) => {
+        updateFunction(brand);
+      });
     });
   }
 
@@ -33,6 +35,10 @@ class App extends React.Component {
     this.setState({
       brands: brands
     });
+  }
+
+  componentDidMount() {
+    this.getBrands(this.updateBrandList);
   }
 
   onSubmit = (brandData) => {
@@ -55,7 +61,7 @@ class App extends React.Component {
           </p>
         </div>
         <div>
-          <ProductForm props={this.state.brands.slice()}/>
+          <ProductForm/>
         </div>
       </div>
     );

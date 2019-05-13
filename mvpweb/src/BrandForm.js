@@ -57,6 +57,9 @@ export default class BrandForm extends React.Component {
 				value={this.state.percentage} 
 				onChange={ e => this.change(e) }
 				/>
+				<label>
+					%
+				</label>
 				<br/>
 				<input
 				name='rent'

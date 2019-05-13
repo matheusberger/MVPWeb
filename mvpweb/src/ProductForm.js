@@ -1,27 +1,45 @@
 import React from 'react';
 import _ from 'lodash';
+import * as firebase from 'firebase'
 
 
 //turn this into controled component
 export default class ProductForm extends React.Component {
-	state = {
-		description: '',
-		brand: '',
-		price: '',
-		stock: {}
-	};
-
-	availableBrands = [];
-
+	
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			description: '',
-			brand: '',
-			price: '',
-			stock: {}
+			product: {
+				description: '',
+				brand: '',
+				price: '',
+				stock: {},
+			},
+			brands: []
 		};
+
+		this.updateBrandList = this.updateBrandList.bind(this);
+	}
+
+	getBrands(updateFunction) {
+	  	var database = firebase.database();
+	  	let brandsRef = database.ref().child('marcas');
+
+	  	brandsRef.on('value', function(snapShot) {
+	  		_.map(snapShot.val(), (brand) => {
+	  			updateFunction(brand);
+	  		});
+	  	});
+	}
+
+	updateBrandList = (newBrand) => {
+	  	var brands = this.state.brands.slice();
+	  	brands.push(newBrand);
+	 	this.setState({
+	    	brands: brands
+	  	});
+	  	console.log(this.state.brands)
 	}
 
 	change = (e) => {
@@ -41,9 +59,13 @@ export default class ProductForm extends React.Component {
 		});
 	}
 
+	componentDidMount() {
+		this.getBrands(this.updateBrandList);
+	}
+
 	render() {
-		var brands = _.map(this.availableBrands, (brand) => {
-			return <option value={brand.id}> { brand.name } </option>;
+		var brands = _.map(this.state.brands, (brand, index) => {
+			return <option key={index}> { brand.name } </option>;
 		});
 
 		return (
@@ -55,15 +77,12 @@ export default class ProductForm extends React.Component {
 				onChange={ e => this.change(e) }
 				/>
 				<br/>
-				<select>
-					{brands}
-				</select>
-				<input
-				name="brand"
-				placeholder='marca' 
-				value={this.state.brand} 
-				onChange={ e => this.change(e) }
-				/>
+				<label>
+					Escolha a Marca
+					<select>
+						{brands}
+					</select>
+				</label>
 				<br/>
 				<input
 				name="price"
