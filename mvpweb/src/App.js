@@ -13,9 +13,14 @@ class App extends React.Component {
     
     this.state = {
       brands: [],
+      products: [],
     };
 
     this.updateBrandList = this.updateBrandList.bind(this);
+    this.updateProductList = this.updateProductList.bind(this);
+
+    this.getBrands(this.updateBrandList);
+    this.getProducts(this.updateProductList);
   }
 
   getBrands(updateFunction) {
@@ -33,15 +38,12 @@ class App extends React.Component {
     var brands = this.state.brands.slice();
     brands.push(newBrand);
     this.setState({
-      brands: brands
+      brands: brands,
+      products: this.state.products
     });
   }
 
-  componentDidMount() {
-    this.getBrands(this.updateBrandList);
-  }
-
-  onSubmit = (brandData) => {
+  onBrandSubmit = (brandData) => {
     var database = firebase.database();
     var brandRef = database.ref().child('marcas');
     var brandKey = brandRef.push().key;
@@ -51,17 +53,48 @@ class App extends React.Component {
     firebase.database().ref().update(updates);
   }
 
+  onProductSubmit = (productData) => {
+    var database = firebase.database();
+    var productRef = database.ref().child('produtos');
+    var produtcKey = productRef.push().key;
+    var updates = {};
+
+    updates['/produtos/' + produtcKey] = productData;
+    firebase.database().ref().update(updates);
+  }
+
+  getProducts(updateFunction) {
+    var database = firebase.database();
+    let productRef = database.ref().child('produtos');
+
+    productRef.on('child_added', function(snapShot) {
+      updateFunction(snapShot.val());
+    });
+  }
+
+  updateProductList = (newProduct) => {
+    var products = this.state.products.slice();
+    products.push(newProduct);
+    this.setState({
+      brands: this.state.brands,
+      products: products
+    });
+  }
+
   render() {
     return (
       <div className="App">
         <div>
-          <BrandForm onSubmit={brandData => this.onSubmit(brandData)}/>
+          <BrandForm onSubmit={brandData => this.onBrandSubmit(brandData)}/>
           <p>
             {JSON.stringify(this.state.brands, null, 2)}
           </p>
         </div>
         <div>
-          <ProductForm/>
+          <ProductForm onSubmit={productData => this.onProductSubmit(productData)} />
+          <p>
+            {JSON.stringify(this.state.products, null, 2)}
+          </p>
         </div>
       </div>
     );

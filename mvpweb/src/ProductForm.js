@@ -20,16 +20,16 @@ export default class ProductForm extends React.Component {
 		};
 
 		this.updateBrandList = this.updateBrandList.bind(this);
+
+		this.getBrands(this.updateBrandList);
 	}
 
 	getBrands(updateFunction) {
 	  	var database = firebase.database();
 	  	let brandsRef = database.ref().child('marcas');
 
-	  	brandsRef.on('value', function(snapShot) {
-	  		_.map(snapShot.val(), (brand) => {
-	  			updateFunction(brand);
-	  		});
+	  	brandsRef.on('child_added', function(snapShot) {
+	  		updateFunction(snapShot.val());
 	  	});
 	}
 
@@ -43,24 +43,25 @@ export default class ProductForm extends React.Component {
 	}
 
 	change = (e) => {
+		let changed = JSON.parse(JSON.stringify(this.state.product));
+		changed[e.target.name] = e.target.value;
 		this.setState({
-			[e.target.name]: e.target.value
+			product: changed
 		});
 	}
 
 	onSubmit = (e) => {
 		e.preventDefault();
-		this.props.onSubmit(this.state);
+		this.props.onSubmit(this.state.product);
 		this.setState({
-			description: '',
-			brand: '',
-			price: '',
-			stock: {}
+			product: {
+				description: '',
+				brand: '',
+				price: '',
+				stock: {},
+			},
+			brands: []
 		});
-	}
-
-	componentDidMount() {
-		this.getBrands(this.updateBrandList);
 	}
 
 	render() {
@@ -73,21 +74,26 @@ export default class ProductForm extends React.Component {
 				<input
 				name="description"
 				placeholder="descrição do produto"
-				value={this.state.description} 
+				value={this.state.product.description} 
 				onChange={ e => this.change(e) }
 				/>
 				<br/>
 				<label>
 					Escolha a Marca
-					<select>
-						{brands}
-					</select>
 				</label>
+				<select 
+				name="brand"
+				onChange={(e) => this.change(e)}>
+					{brands}
+				</select>
 				<br/>
+				<label>
+					R$
+				</label>
 				<input
 				name="price"
 				placeholder='preço do produto' 
-				value={this.state.price} 
+				value={this.state.product.price} 
 				onChange={ e => this.change(e) }
 				/>
 				<br/>
