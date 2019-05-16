@@ -53,6 +53,7 @@ export default class BrandForm extends React.Component {
 				<br/>
 				<input
 				name='percentage'
+				type="number"
 				placeholder='Porcentagem que a marca paga' 
 				value={this.state.percentage} 
 				onChange={ e => this.change(e) }
@@ -63,6 +64,7 @@ export default class BrandForm extends React.Component {
 				<br/>
 				<input
 				name='rent'
+				type="number"
 				placeholder='Valor do aluguel da marca' 
 				value={this.state.rent} 
 				onChange={ e => this.change(e) }

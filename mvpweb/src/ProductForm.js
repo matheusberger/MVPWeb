@@ -5,7 +5,8 @@ import * as firebase from 'firebase'
 
 //turn this into controled component
 export default class ProductForm extends React.Component {
-	
+	numOfSizes = 1;
+
 	constructor(props) {
 		super(props);
 
@@ -14,7 +15,7 @@ export default class ProductForm extends React.Component {
 				description: '',
 				brand: '',
 				price: '',
-				stock: {},
+				stock: [{name: '', amount:0}],
 			},
 			brands: []
 		};
@@ -39,14 +40,13 @@ export default class ProductForm extends React.Component {
 	 	this.setState({
 	    	brands: brands
 	  	});
-	  	console.log(this.state.brands)
 	}
 
 	change = (e) => {
-		let changed = JSON.parse(JSON.stringify(this.state.product));
-		changed[e.target.name] = e.target.value;
+		let updatedState = JSON.parse(JSON.stringify(this.state.product));
+		updatedState[e.target.name] = e.target.value;
 		this.setState({
-			product: changed
+			product: updatedState
 		});
 	}
 
@@ -58,15 +58,52 @@ export default class ProductForm extends React.Component {
 				description: '',
 				brand: '',
 				price: '',
-				stock: {},
+				stock: [{name: '', amount:0}],
 			},
 			brands: []
 		});
 	}
 
+	addSize = (e) => {
+		e.preventDefault();
+		var sizes = this.state.product.stock.slice();
+		sizes.push({ name: '', amount: 0});
+
+		let updatedState = JSON.parse(JSON.stringify(this.state));
+		updatedState.product.stock = sizes;
+		this.setState(updatedState);
+	}
+
+	changeStock = (e, index) => {
+
+		let updatedState = JSON.parse(JSON.stringify(this.state));
+		updatedState.product.stock[index][e.target.name] = e.target.value;
+		this.setState(updatedState);
+	}
+
 	render() {
 		var brands = _.map(this.state.brands, (brand, index) => {
 			return <option key={index}> { brand.name } </option>;
+		});
+
+		var sizes = _.map(this.state.product.stock, (size, index) => {
+			return (
+				<div>
+					<input 
+					key={index} 
+					name='name' 
+					value={size.name} 
+					onChange={e => this.changeStock(e, index)} 
+					/>
+					<input
+					key={-index-1}
+					type="number"
+					name='amount'
+					value={size.amount}
+					onChange={e => this.changeStock(e, index)}
+					/>
+				</div>
+				);
 		});
 
 		return (
@@ -79,11 +116,13 @@ export default class ProductForm extends React.Component {
 				/>
 				<br/>
 				<label>
-					Escolha a Marca
+					Marca
 				</label>
 				<select 
 				name="brand"
-				onChange={(e) => this.change(e)}>
+				placeholder="Escolha a marca"
+				onChange={e => this.change(e)}>
+				<option value="">Escolha a marca</option>
 					{brands}
 				</select>
 				<br/>
@@ -92,10 +131,19 @@ export default class ProductForm extends React.Component {
 				</label>
 				<input
 				name="price"
+				type="number"
 				placeholder='preço do produto' 
 				value={this.state.product.price} 
 				onChange={ e => this.change(e) }
 				/>
+				<br/>
+				<label>
+					Tamanhos
+				</label>
+				{sizes}
+				<button onClick={e => this.addSize(e)}>
+					+
+				</button>
 				<br/>
 				<button onClick={e => this.onSubmit(e)}>
 					Cadastrar 

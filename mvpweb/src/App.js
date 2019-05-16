@@ -49,6 +49,8 @@ class App extends React.Component {
     var brandKey = brandRef.push().key;
     var updates = {};
 
+    this.formatBrand(brandData);
+
     updates['/marcas/' + brandKey] = brandData;
     firebase.database().ref().update(updates);
   }
@@ -59,8 +61,26 @@ class App extends React.Component {
     var produtcKey = productRef.push().key;
     var updates = {};
 
+    this.formatProduct(productData);
+    
     updates['/produtos/' + produtcKey] = productData;
     firebase.database().ref().update(updates);
+  }
+
+  formatBrand(brand) {
+    brand.rent = parseInt(brand.rent);
+    brand.percentage = parseInt(brand.percentage);
+  }
+
+  formatProduct(product) {
+    let stock = product.stock.slice();
+    var formatedStock = {};
+    stock.forEach( (item, index) => {
+      formatedStock[item.name] = parseInt(item.amount);
+    });
+
+    product.stock = formatedStock;
+    product.price = parseInt(product.price);
   }
 
   getProducts(updateFunction) {
