@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
 import * as firebase from 'firebase';
-import BrandForm from './BrandForm.js'
-import ProductForm from './ProductForm.js'
+import BrandForm from './BrandForm.js';
+import ProductForm from './ProductForm.js';
 import _ from 'lodash';
-import QRCode from 'qrcode.react'
+import Tag from './Tag.js';
 
 
 class App extends React.Component {
@@ -117,9 +117,7 @@ class App extends React.Component {
             {JSON.stringify(this.state.products, null, 2)}
           </p>
         </div>
-        <div>
-          <QRCode value="teste de qr code sera que rola?"/>
-        </div>
+        <Tag/>
       </div>
     );
   }
