@@ -1,17 +1,8 @@
 import React from 'react';
 import QRCode from 'qrcode.react';
-import { PDFDownloadLink, Text, Page, Document, Canvas, StyleSheet } from '@react-pdf/renderer';
+import ReactToPdf from "react-to-pdf";
 
 export default class Tag extends React.Component {
-
-	// Create Document Component
-	MyDocument() {
-		return (
-	    	<Page size="A4">
-	      		<QRCode value="teste de novo"/>
-	    	</Page>
-		);
-	}
 
 	componentDidMount() {
 		this.savePDF();
@@ -28,22 +19,13 @@ export default class Tag extends React.Component {
 				<label>OLHA A ETIQUETAA</label>
 				<br/>
 				<QRCode value="teste de novo"/>
-				<PDFDownloadLink 
-				document={<PDFTag/>}
-				fileName="somename.pdf"
-				>
-				    {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download now!')}
-				</PDFDownloadLink>
+				<PDFTag/>
 			</div>
 		);
 	} 
 }
 
 export class PDFTag extends React.Component {
-	canvasStyle = StyleSheet.create({
-		width: 700,
-		height: 700
-	});
 
 	qrcode = () => {
 		return(
@@ -52,18 +34,26 @@ export class PDFTag extends React.Component {
 	}
 
 	render() {
+		const ref = React.createRef();
+		const options = {
+		    orientation: "portrait",
+		    unit: "px",
+		    format: "a4"
+		};
 		return (
-	    	<Document>
-	   	    	<Page size="A4">
-	   	      		<Text>
-	   	      			Testando essa doideira
-	   	      		</Text>
-	   	      		<Canvas
-	   	      		style={this.canvasStyle}
-	   	      		paint={(this.qrcode)}
-	   	      		/>
-	   		    </Page>
-	   		</Document>
+			<div>
+				<ReactToPdf targetRef={ref} filename="etiquetas.pdf" options={options} x={-110}>
+				    {({toPdf}) => (
+				        <button onClick={toPdf}>Generate pdf</button>
+				    )}
+				</ReactToPdf>
+				<div style={{width: 595, height: 842}} ref={ref}>
+					<label> MMM0MMM </label>
+					<br/>
+					{this.qrcode()}
+				</div>
+
+	    	</div>
 		);
 	}
 }
