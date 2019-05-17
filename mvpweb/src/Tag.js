@@ -41,16 +41,13 @@ export default class Tag extends React.Component {
 
 export class PDFTag extends React.Component {
 	canvasStyle = StyleSheet.create({
-		width: 400,
-		height: 400
+		width: 700,
+		height: 700
 	});
 
 	qrcode = () => {
-		return (
-			<QRCode 
-				value="teste de novo"
-				renderAs="canvas"
-			/>
+		return(
+			<QRCode value="teste de novo" renderAs="svg"/>
 		);
 	}
 
@@ -63,7 +60,7 @@ export class PDFTag extends React.Component {
 	   	      		</Text>
 	   	      		<Canvas
 	   	      		style={this.canvasStyle}
-	   	      		paint={(this.qrcode(), 200, 200)}
+	   	      		paint={(this.qrcode)}
 	   	      		/>
 	   		    </Page>
 	   		</Document>
