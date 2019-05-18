@@ -4,7 +4,7 @@ import * as firebase from 'firebase';
 import BrandForm from './BrandForm.js';
 import ProductForm from './ProductForm.js';
 import _ from 'lodash';
-import Tag from './Tag.js';
+import PrintableTagList from './Tag.js';
 
 
 class App extends React.Component {
@@ -28,15 +28,14 @@ class App extends React.Component {
     var database = firebase.database();
     let brandsRef = database.ref().child('marcas');
 
-    brandsRef.on('value', function(snapShot) {
-      _.map(snapShot.val(), (brand) => {
-        updateFunction(brand);
-      });
+    brandsRef.on('child_added', function(snapShot) {
+        updateFunction(snapShot.val(), snapShot.key);
     });
   }
 
-  updateBrandList = (newBrand) => {
+  updateBrandList = (newBrand, key) => {
     var brands = this.state.brands.slice();
+    newBrand.key = key;
     brands.push(newBrand);
     this.setState({
       brands: brands,
@@ -89,12 +88,13 @@ class App extends React.Component {
     let productRef = database.ref().child('produtos');
 
     productRef.on('child_added', function(snapShot) {
-      updateFunction(snapShot.val());
+      updateFunction(snapShot.val(), snapShot.key);
     });
   }
 
-  updateProductList = (newProduct) => {
+  updateProductList = (newProduct, key) => {
     var products = this.state.products.slice();
+    newProduct.key = key;
     products.push(newProduct);
     this.setState({
       brands: this.state.brands,
@@ -104,7 +104,7 @@ class App extends React.Component {
 
   render() {
     var tags = _.map(this.state.products, (product, index) => {
-      return <Tag key={index} product={product}/>
+      return <PrintableTagList key={index} product={product}/>
     });
     return (
       <div className="App">
