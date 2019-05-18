@@ -103,6 +103,9 @@ class App extends React.Component {
   }
 
   render() {
+    var tags = _.map(this.state.products, (product, index) => {
+      return <Tag key={index} product={product}/>
+    });
     return (
       <div className="App">
         <div>
@@ -117,7 +120,7 @@ class App extends React.Component {
             {JSON.stringify(this.state.products, null, 2)}
           </p>
         </div>
-        <Tag/>
+        {tags}
       </div>
     );
   }

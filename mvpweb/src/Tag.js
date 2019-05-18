@@ -3,29 +3,24 @@ import QRCode from 'qrcode.react';
 import ReactToPdf from "react-to-pdf";
 
 export default class Tag extends React.Component {
-
-	componentDidMount() {
-		this.savePDF();
-	}
-
-	savePDF() {
-		const input = document.getElementById("capture");
-		console.log(input);
-	}
-
 	render() {
 		return (
-			<div id="capture" style={{padding: 10, background: "#f5da55"}}>
-				<label>OLHA A ETIQUETAA</label>
+			<div>
+				<label>{this.props.product.brand}</label>
 				<br/>
-				<QRCode value="teste de novo"/>
-				<PDFTag/>
+				<label>{this.props.product.description}</label>
+				<br/>
+				<QRCode value={JSON.stringify(this.props)}/>
+				<br/>
+				<label>{this.props.product.price}</label>
+				<pre>  </pre>
+				<label>{this.props.product.size}</label>
 			</div>
 		);
 	} 
 }
 
-export class PDFTag extends React.Component {
+export class Printable extends React.Component {
 
 	qrcode = () => {
 		return(
