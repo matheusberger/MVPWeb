@@ -33,15 +33,19 @@ export default class PrintableTagList extends React.Component {
 		    format: [1240, 1754]
 		};
 
-		var tags = _.map(this.props.product.stock, (amount, size) => {
+		var tags = [];
+
+		_.map(this.props.product.stock, (amount, size) => {
 			var productInstance = _.omit(this.props.product, 'stock');
 			productInstance.size = size;
 
 			for (var i = amount - 1; i >= 0; i--) {
-				console.log('this should be a ' + size + ' tag');
+				tags.push(productInstance);
 			}
+		});
 
-			return	<Tag key={productInstance.key + size} product={productInstance}/>;
+		tags = _.map(tags, (product, index) => {
+			return <Tag key={product.key + index} product={product} />
 		});
 
 		return (
