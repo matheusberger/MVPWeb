@@ -5,7 +5,6 @@ import _ from 'lodash';
 
 export class Tag extends React.Component {
 	render() {
-		console.log(this.props.product);
 		return (
 			<div>
 				<p>
@@ -37,6 +36,11 @@ export default class PrintableTagList extends React.Component {
 		var tags = _.map(this.props.product.stock, (amount, size) => {
 			var productInstance = _.omit(this.props.product, 'stock');
 			productInstance.size = size;
+
+			for (var i = amount - 1; i >= 0; i--) {
+				console.log('this should be a ' + size + ' tag');
+			}
+
 			return	<Tag key={productInstance.key + size} product={productInstance}/>;
 		});
 
@@ -44,7 +48,7 @@ export default class PrintableTagList extends React.Component {
 			<div>
 				<ReactToPdf targetRef={ref} filename="etiquetas.pdf" options={options} x={0}>
 				    {({toPdf}) => (
-				        <button onClick={toPdf}>Generate pdf</button>
+				        <button onClick={toPdf}>Imprimir Etiquetas!</button>
 				    )}
 				</ReactToPdf>
 				<div style={{width: 1240, height: 1754}} ref={ref}>
