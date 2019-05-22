@@ -21,8 +21,15 @@ export default class ProductForm extends React.Component {
 		};
 
 		this.updateBrandList = this.updateBrandList.bind(this);
+	}
 
+	componentDidMount() {
 		this.getBrands(this.updateBrandList);
+	}
+
+	componentWillUnmount() {
+		var database = firebase.database();
+		let productRef = database.ref().child('marcas').off();
 	}
 
 	getBrands(updateFunction) {

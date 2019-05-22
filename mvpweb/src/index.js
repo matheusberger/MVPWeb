@@ -4,6 +4,10 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import * as firebase from 'firebase'
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import BrandRegister from './BrandRegister.js';
+import ProductRegister from './ProductRegister.js';
+import ProductList from './ProductList.js';
 
 var firebaseConfig = {
     apiKey: "AIzaSyCEj_PrVcaIerFMtxWfVZ7_b2nDIc0K6Mc",
@@ -17,7 +21,16 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+	<BrowserRouter>
+		<Switch>
+			<Route path="/" exact={true} component={App} />
+			<Route path="/cadastrar_marca" component={BrandRegister} />
+			<Route path="/cadastrar_produto" component={ProductRegister} />
+			<Route path="/lista_produtos" component={ProductList} />
+		</Switch>
+	</BrowserRouter>
+	, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
