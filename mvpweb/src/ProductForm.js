@@ -29,7 +29,7 @@ export default class ProductForm extends React.Component {
 
 	componentWillUnmount() {
 		var database = firebase.database();
-		let productRef = database.ref().child('marcas').off();
+		database.ref().child('marcas').off();
 	}
 
 	getBrands(updateFunction) {
