@@ -46,6 +46,11 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        <h1>Página Principal</h1>
+        <div>
+          <Link to="/login">Fazer Login</Link>
+          <p/>
+        </div>
         <div>
           <Link to="/cadastrar_marca">Cadastrar Marcas</Link>
           <p>
@@ -54,8 +59,7 @@ class App extends React.Component {
         </div>
         <div>
           <Link to="/cadastrar_produto">Cadastrar Produtos</Link>
-          <p>
-          </p>
+          <p/>
         </div>
         <div>
           <Link to="/lista_produtos">Lista de Produtos</Link>

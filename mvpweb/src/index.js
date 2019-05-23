@@ -9,6 +9,7 @@ import BrandRegister from './brand/BrandRegister.js';
 import ProductRegister from './product/ProductRegister.js';
 import ProductList from './product/ProductList.js';
 import TagPrintPage from './product/tag/TagPrintPage.js';
+import Login from './login/Login.js';
 
 var firebaseConfig = {
     apiKey: "AIzaSyCEj_PrVcaIerFMtxWfVZ7_b2nDIc0K6Mc",
@@ -26,6 +27,7 @@ ReactDOM.render(
 	<BrowserRouter>
 		<Switch>
 			<Route path="/" exact={true} component={App} />
+			<Route path="/login" component={Login} />
 			<Route path="/cadastrar_marca" component={BrandRegister} />
 			<Route path="/cadastrar_produto" component={ProductRegister} />
 			<Route path="/lista_produtos" component={ProductList} />

@@ -25,9 +25,11 @@ export default class BrandRegister extends React.Component {
 	render() {
 		return (
 			<div>
+				<h1>Cadastro de Marcas</h1>
 				<div>
 					<BrandForm onSubmit={brandData => this.onBrandSubmit(brandData)}/>
 				</div>
+				<br/>
 				<div>
 					<Link to="/">Pagina Inicial</Link>
 				</div>
