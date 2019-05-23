@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import * as firebase from 'firebase';
 import _ from 'lodash';
-import PrintableTagList from './Tag.js';
 import './ProductList.css'
 
 export default class ProductList extends React.Component {
@@ -46,25 +45,27 @@ export default class ProductList extends React.Component {
 	}
 
 	render() {
-		// var tags = _.map(this.state.products, (product, index) => {
-		//   	return <PrintableTagList key={index} product={product}/>
-		// });
-
 		var tags = _.map(this.state.products, (product, index) => {
 		  	return (
-		  		<div key={index} class="row">
-		  			<div class="column">
+		  		<div key={index} className="row">
+		  			<div className="column">
 		  				<label>{product.description}</label>
 		  			</div>
-		  			<div class="column">
+		  			<div className="column">
 		  				<label>{product.brand}</label>
 		  			</div>
-		  			<div class="column">
+		  			<div className="column">
 		  				<label>R${product.price}</label>
 		  			</div>
-		  			<div class="column">
+		  			<div className="column">
 		  				<label>{JSON.stringify(product.stock)}</label>
 		  			</div>
+		  			<div className="column">
+						<Link to={{
+							pathname: "/imprimir_produto",
+							state: {product: product}
+						}}>Imprimir Etiquetas</Link>
+					</div>
 		  		</div>
 		  	);
 		});
@@ -75,17 +76,17 @@ export default class ProductList extends React.Component {
 					<Link to="/">Página Principal</Link>
 				</div>
 				<h1> Lista de Produtos </h1>
-				<div class="row">
-					<div class="column">
+				<div className="row">
+					<div className="column">
 						<h2>Descrição</h2>
 					</div>
-					<div class="column">
+					<div className="column">
 						<h2>Marca</h2>
 					</div>
-					<div class="column">
+					<div className="column">
 						<h2>Preço</h2>
 					</div>
-					<div class="column">
+					<div className="column">
 						<h2>Estoque</h2>
 					</div>
 				</div>

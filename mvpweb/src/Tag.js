@@ -58,7 +58,6 @@ export default class PrintableTagList extends React.Component {
 				<div style={{width: 1240, height: 1754}} ref={ref}>
 					{tags}
 				</div>
-
 	    	</div>
 		);
 	}

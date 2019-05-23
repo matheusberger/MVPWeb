@@ -8,6 +8,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import BrandRegister from './BrandRegister.js';
 import ProductRegister from './ProductRegister.js';
 import ProductList from './ProductList.js';
+import TagPrintPage from './TagPrintPage.js';
 
 var firebaseConfig = {
     apiKey: "AIzaSyCEj_PrVcaIerFMtxWfVZ7_b2nDIc0K6Mc",
@@ -28,6 +29,7 @@ ReactDOM.render(
 			<Route path="/cadastrar_marca" component={BrandRegister} />
 			<Route path="/cadastrar_produto" component={ProductRegister} />
 			<Route path="/lista_produtos" component={ProductList} />
+			<Route path="/imprimir_produto" component={TagPrintPage} />
 		</Switch>
 	</BrowserRouter>
 	, document.getElementById('root'));
