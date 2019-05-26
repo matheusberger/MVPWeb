@@ -1,34 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import * as firebase from 'firebase';
+import LoginForm from './LoginForm.js';
 
 export default class Login extends React.Component {
 
-	state = {
-		email: '',
-		uid: ''
-	};
-
 	componentDidMount() {
-		console.log("montou o login");
-		firebase.auth().signInWithEmailAndPassword("kamila@mepoupe.com", "taoboazinha").catch(function(error) {
-		  	// Handle Errors here.
-		  	var errorCode = error.code;
-		  	var errorMessage = error.message;
-		  	// ...
-		  	console.log(errorCode, errorMessage);
-		});
-
 		firebase.auth().onAuthStateChanged((user) => {
 		  	if (user) {
-		    	// User is signed in.
-		    	var email = user.email;
-		    	var uid = user.uid;
-		    	
-		    	this.setState({
-		    		email: email,
-		    		uid: uid
-		    	});
+		    	window.location.href = "http://localhost:3000/";
 		  	} else {
 		    	// User is signed out.
 		    	// ...
@@ -36,11 +16,22 @@ export default class Login extends React.Component {
 		});
 	}
 
+	onLoginSubmit = (loginData) => {
+	  firebase.auth().signInWithEmailAndPassword(loginData.email, loginData.password).catch(function(error) {
+	    	// Handle Errors here.
+	    	var errorCode = error.code;
+	    	var errorMessage = error.message;
+	    	// ...
+	    	console.log(errorCode, errorMessage);
+	  });
+	}
+
 	render() {
 		return (
 			<div>
 				<h1>Login</h1>
 				<br/>
+				<LoginForm onSubmit={loginData => this.onLoginSubmit(loginData)} />
 				<Link to="/">Voltar</Link>
 			</div>
 		);

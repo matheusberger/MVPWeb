@@ -15,6 +15,7 @@ export default class ProductForm extends React.Component {
 				description: '',
 				brand: '',
 				price: '',
+				ref: '',
 				stock: [{name: '', amount:0}],
 			},
 			brands: []
@@ -65,6 +66,7 @@ export default class ProductForm extends React.Component {
 				description: '',
 				brand: '',
 				price: '',
+				ref: '',
 				stock: [{name: '', amount:0}],
 			},
 			brands: []
@@ -132,6 +134,16 @@ export default class ProductForm extends React.Component {
 				<option value="">Escolha a marca</option>
 					{brands}
 				</select>
+				<br/>
+				<label>
+					Referência/Código
+				</label>
+				<input
+				name='ref'
+				placeholder='referencia do produto'
+				value={this.state.product.ref}
+				onChange={ e => this.change(e) }
+				/>
 				<br/>
 				<label>
 					R$

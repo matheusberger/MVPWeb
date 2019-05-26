@@ -5,41 +5,51 @@ import * as firebase from 'firebase';
 
 class App extends React.Component {
 
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      brands: [],
-    };
+  state = {
+    user: {
+      email: '',
+      uid: '',
+    },
+    store: ''
+  };
 
-    this.updateBrandList = this.updateBrandList.bind(this);
-  }
+  unsubscribe = '';
 
   componentDidMount() {
-    this.getBrands(this.updateBrandList);
-  }
-
-  componentWillUnmount() {
-    var database = firebase.database();
-    database.ref().child('marcas').off();
-  }
-
-  getBrands(updateFunction) {
-    var database = firebase.database();
-    let brandsRef = database.ref().child('marcas');
-
-    brandsRef.on('child_added', function(snapShot) {
-        updateFunction(snapShot.val(), snapShot.key);
+    this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          // User is signed in.
+          var email = user.email;
+          var uid = user.uid;
+          
+          this.setState({
+            user: {
+              email: email,
+              uid: uid
+            },
+            store: {}
+          });
+          this.getStoreData();
+        } else {
+          console.log('no user');
+          window.location.href = "http://localhost:3000/login";
+        }
     });
   }
 
-  updateBrandList = (newBrand, key) => {
-    var brands = this.state.brands.slice();
-    newBrand.key = key;
-    brands.push(newBrand);
-    this.setState({
-      brands: brands,
-      products: this.state.products
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  getStoreData() {
+    var database = firebase.database();
+    let userRef = database.ref().child('users').child(this.state.user.uid);
+
+    userRef.on('value', snapShot => {
+      this.setState({
+        user: this.state.user,
+        store: snapShot.val().store
+      });
     });
   }
 
@@ -52,17 +62,19 @@ class App extends React.Component {
           <p/>
         </div>
         <div>
-          <Link to="/cadastrar_marca">Cadastrar Marcas</Link>
-          <p>
-            {JSON.stringify(this.state.brands, null, 2)}
-          </p>
-        </div>
-        <div>
-          <Link to="/cadastrar_produto">Cadastrar Produtos</Link>
+          <Link to="/marcas/cadastro">Cadastrar Marcas</Link>
           <p/>
         </div>
         <div>
-          <Link to="/lista_produtos">Lista de Produtos</Link>
+          <Link to="/marcas">Lista de Marcas</Link>
+          <p/>
+        </div>
+        <div>
+          <Link to="/produtos/cadastro">Cadastrar Produtos</Link>
+          <p/>
+        </div>
+        <div>
+          <Link to="/produtos">Lista de Produtos</Link>
         </div>
       </div>
     );

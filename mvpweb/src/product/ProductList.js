@@ -39,13 +39,12 @@ export default class ProductList extends React.Component {
 	  	newProduct.key = key;
 	  	products.push(newProduct);
 	  	this.setState({
-	    	brands: this.state.brands,
 	    	products: products
 	  });
 	}
 
 	render() {
-		var tags = _.map(this.state.products, (product, index) => {
+		var products = _.map(this.state.products, (product, index) => {
 		  	return (
 		  		<div key={index} className="row">
 		  			<div className="column">
@@ -62,7 +61,7 @@ export default class ProductList extends React.Component {
 		  			</div>
 		  			<div className="column">
 						<Link to={{
-							pathname: "/imprimir_produto",
+							pathname: "/produtos/imprimir",
 							state: {product: product}
 						}}>Imprimir Etiquetas</Link>
 					</div>
@@ -75,7 +74,7 @@ export default class ProductList extends React.Component {
 				<div>
 					<Link to="/">Página Principal</Link>
 				</div>
-				<h1> Lista de Produtos </h1>
+				<h1> Produtos </h1>
 				<div className="row">
 					<div className="column">
 						<h2>Descrição</h2>
@@ -90,7 +89,7 @@ export default class ProductList extends React.Component {
 						<h2>Estoque</h2>
 					</div>
 				</div>
-				{tags}
+				{products}
 			</div>
 		);
 	}
