@@ -62,19 +62,31 @@ class App extends React.Component {
           <p/>
         </div>
         <div>
-          <Link to="/marcas/cadastro">Cadastrar Marcas</Link>
+          <Link to={{
+            pathname: "/marcas/cadastro",
+              state: {storeUID: this.state.store}
+          }}>Cadastrar Marcas</Link>
           <p/>
         </div>
         <div>
-          <Link to="/marcas">Lista de Marcas</Link>
+          <Link to={{
+            pathname: "/marcas",
+            state: {storeUID: this.state.store}
+          }}>Lista de Marcas</Link>
           <p/>
         </div>
         <div>
-          <Link to="/produtos/cadastro">Cadastrar Produtos</Link>
+          <Link to={{
+            pathname: "/produtos/cadastro",
+            state: {storeUID: this.state.store}
+          }}>Cadastrar Produtos</Link>
           <p/>
         </div>
         <div>
-          <Link to="/produtos">Lista de Produtos</Link>
+          <Link to={{
+            pathname: "/produtos",
+            state: {storeUID: this.state.store}
+          }}>Lista de Produtos</Link>
         </div>
       </div>
     );

@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom';
 
 export default class BrandRegister extends React.Component {
 
+	state = {
+		storeUID: this.props.location.state.storeUID
+	};
+
 	onBrandSubmit = (brandData) => {
 	  	var database = firebase.database();
 	  	var brandRef = database.ref().child('marcas');
@@ -13,7 +17,7 @@ export default class BrandRegister extends React.Component {
 
 	  	this.formatBrand(brandData);
 
-	  	updates['/marcas/' + brandKey] = brandData;
+	  	updates['/stores/' + this.state.storeUID + '/brands/' + brandKey] = brandData;
 	  	firebase.database().ref().update(updates);
 	}
 

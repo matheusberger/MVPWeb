@@ -10,7 +10,8 @@ export default class BrandList extends React.Component {
 		super(props);
 
 		this.state = {
-			brands: []
+			brands: [],
+			storeUID: this.props.location.state.storeUID
 		};
 
 		this.updateBrandList = this.updateBrandList.bind(this);
@@ -22,12 +23,12 @@ export default class BrandList extends React.Component {
 
 	componentWillUnmount() {
 	  	var database = firebase.database();
-	  	database.ref().child('marcas').off();
+	  	database.ref().child('stores').child(this.state.storeUID).child('brands').off();
 	}
 
 	getBrands(updateFunction) {
 	  	var database = firebase.database();
-	  	let brandsRef = database.ref().child('marcas');
+	  	let brandsRef = database.ref().child('stores').child(this.state.storeUID).child('brands');
 
 	  	brandsRef.on('child_added', function(snapShot) {
 	      	updateFunction(snapShot.val(), snapShot.key);
@@ -40,6 +41,7 @@ export default class BrandList extends React.Component {
 	  	brands.push(newBrand);
 	  	this.setState({
 	    	brands: brands,
+	    	storeUID: this.state.storeUID
 	  	});
 	}
 

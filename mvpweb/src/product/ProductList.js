@@ -10,7 +10,8 @@ export default class ProductList extends React.Component {
 		super(props);
 
 		this.state = {
-			products: []
+			products: [],
+			storeUID: this.props.location.state.storeUID
 		};
 
 		this.updateProductList = this.updateProductList.bind(this);
@@ -22,12 +23,12 @@ export default class ProductList extends React.Component {
 
 	componentWillUnmount() {
 		var database = firebase.database();
-		database.ref().child('produtos').off();
+		database.ref().child('stores').child(this.state.storeUID).child('products').off();
 	}
 
 	getProducts(updateFunction) {
 	  	var database = firebase.database();
-	  	let productRef = database.ref().child('produtos');
+	  	let productRef = database.ref().child('stores').child(this.state.storeUID).child('products');
 
 	  	productRef.on('child_added', function(snapShot) {
 	    	updateFunction(snapShot.val(), snapShot.key);
@@ -39,7 +40,8 @@ export default class ProductList extends React.Component {
 	  	newProduct.key = key;
 	  	products.push(newProduct);
 	  	this.setState({
-	    	products: products
+	    	products: products,
+	    	storeUID: this.state.storeUID
 	  });
 	}
 

@@ -5,6 +5,10 @@ import { Link } from 'react-router-dom';
 
 export default class ProductRegister extends React.Component {
 
+	state = {
+		storeUID: this.props.location.state.storeUID
+	};
+
 	onProductSubmit = (productData) => {
 	  var database = firebase.database();
 	  var productRef = database.ref().child('produtos');
@@ -13,7 +17,7 @@ export default class ProductRegister extends React.Component {
 
 	  this.formatProduct(productData);
 	  
-	  updates['/produtos/' + produtcKey] = productData;
+	  updates['/stores/' + this.state.storeUID + '/products/' + produtcKey] = productData;
 	  firebase.database().ref().update(updates);
 	}
 
@@ -33,7 +37,7 @@ export default class ProductRegister extends React.Component {
 			<div>
 				<h1>Cadastro de Produtos</h1>
 				<div>
-					<ProductForm onSubmit={productData => this.onProductSubmit(productData)} />
+					<ProductForm onSubmit={productData => this.onProductSubmit(productData)} storeUID={this.state.storeUID}/>
 				</div>
 				<br/>
 				<div>

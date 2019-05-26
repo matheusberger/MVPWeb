@@ -35,7 +35,7 @@ export default class ProductForm extends React.Component {
 
 	getBrands(updateFunction) {
 	  	var database = firebase.database();
-	  	let brandsRef = database.ref().child('marcas');
+	  	let brandsRef = database.ref().child('stores').child(this.props.storeUID).child('brands');
 
 	  	brandsRef.on('child_added', function(snapShot) {
 	  		updateFunction(snapShot.val());
