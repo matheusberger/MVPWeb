@@ -2,7 +2,6 @@ import React from 'react';
 import * as firebase from 'firebase';
 import ProductForm from './ProductForm.js';
 import { Link } from 'react-router-dom';
-import shortid from 'shortid'
 
 export default class ProductRegister extends React.Component {
 
@@ -30,7 +29,7 @@ export default class ProductRegister extends React.Component {
 	  });
 
 	  if (product.ref === '') {
-	  	product.ref = shortid.generate();
+	  	// product.ref = shortid.generate();
 	  }
 
 	  product.stock = formatedStock;
