@@ -2,6 +2,7 @@ import React from 'react';
 import * as firebase from 'firebase';
 import ProductForm from './ProductForm.js';
 import { Link } from 'react-router-dom';
+import nanoid from 'nanoid';
 
 export default class ProductRegister extends React.Component {
 
@@ -10,9 +11,7 @@ export default class ProductRegister extends React.Component {
 	};
 
 	onProductSubmit = (productData) => {
-	  var database = firebase.database();
-	  var productRef = database.ref().child('produtos');
-	  var produtcKey = productRef.push().key;
+	  let produtcKey = nanoid(8);
 	  var updates = {};
 
 	  this.formatProduct(productData);
@@ -27,10 +26,6 @@ export default class ProductRegister extends React.Component {
 	  stock.forEach( (item, index) => {
 	    formatedStock[item.name] = parseInt(item.amount);
 	  });
-
-	  if (product.ref === '') {
-	  	// product.ref = shortid.generate();
-	  }
 
 	  product.stock = formatedStock;
 	  product.price = parseInt(product.price);
