@@ -54,7 +54,8 @@ export default class ProductForm extends React.Component {
 		let updatedState = JSON.parse(JSON.stringify(this.state.product));
 		updatedState[e.target.name] = e.target.value;
 		this.setState({
-			product: updatedState
+			product: updatedState,
+			brands: this.state.brands
 		});
 	}
 
@@ -69,7 +70,7 @@ export default class ProductForm extends React.Component {
 				ref: '',
 				stock: [{name: '', amount:0}],
 			},
-			brands: []
+			brands: this.state.brands
 		});
 	}
 

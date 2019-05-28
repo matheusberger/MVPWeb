@@ -9,6 +9,7 @@ class App extends React.Component {
     user: {
       email: '',
       uid: '',
+      name: ''
     },
     store: ''
   };
@@ -25,9 +26,10 @@ class App extends React.Component {
           this.setState({
             user: {
               email: email,
-              uid: uid
+              uid: uid,
+              name: this.state.user.name
             },
-            store: {}
+            store: this.state.store
           });
           this.getStoreData();
         } else {
@@ -47,7 +49,11 @@ class App extends React.Component {
 
     userRef.on('value', snapShot => {
       this.setState({
-        user: this.state.user,
+        user: {
+          email: this.state.user.email,
+          uid: this.state.user.uid,
+          name: snapShot.val().name
+        },
         store: snapShot.val().store
       });
     });
@@ -56,7 +62,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <h1>Página Principal</h1>
+        <h1>Olá {this.state.user.name}</h1>
         <div>
           <Link to="/login">Fazer Login</Link>
           <p/>
