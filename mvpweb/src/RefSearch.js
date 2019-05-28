@@ -5,6 +5,7 @@ import * as firebase from 'firebase';
 
 export default class RefSearch extends React.Component {
 
+
 	state = {
 		ref: ''
 	};
