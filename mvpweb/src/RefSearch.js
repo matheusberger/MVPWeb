@@ -53,12 +53,29 @@ export default class RefSearch extends React.Component {
 		}
 	}
 
-	sell = (size) => {
-		var updatedStock = JSON.parse(JSON.stringify(this.state.product));
+	submitSale = (size) => {
+		this.updateStock(size);
 
-		//create the sell object and save it to firebase here
+		let saleRef = firebase.database().ref('/stores/' + this.state.storeUID + '/sales/' + this.state.product.brandKey + '/' + this.state.key + '/cash/' + size);
 		
-		this.updatedStock(updatedStock, size);
+		saleRef.once('value', snapshot => {
+		    var updates = {};
+		   	updates['/stores/' + this.state.storeUID + '/sales/' + this.state.product.brandKey + '/' + this.state.key + '/cash/' + size] = snapshot.val() + 1;
+		  	updates['/stores/' + this.state.storeUID + '/products/' + this.state.key] = this.state.product;
+		   	firebase.database().ref().update(updates);
+		});
+
+	  	
+	}
+
+	updateStock = (size) => {
+		var updatedStock = JSON.parse(JSON.stringify(this.state.product));
+		updatedStock.stock[size] = updatedStock.stock[size] - 1;
+		
+		if(!updatedStock.stock[size]) {
+			delete updatedStock.stock[size];
+		}	
+
 	  	this.setState({
 	  		key: this.state.key,
 	  		storeUID: this.state.storeUID,
@@ -66,29 +83,11 @@ export default class RefSearch extends React.Component {
 	  	});
 	}
 
-	updateStock = (product, size) => {
-		product.stock[size] = product.stock[size] - 1;
-		
-		if(!product.stock[size]) {
-			delete product.stock[size];
-		}
-
-		var updates = {};
-		updates['/stores/' + this.state.storeUID + '/products/' + this.state.key] = product;
-	  	firebase.database().ref().update(updates);
-
-	  	this.setState({
-	  		key: this.state.key,
-	  		storeUID: this.state.storeUID,
-	  		product: product
-	  	});
-	}
-
 	render() {
 		var saleButtons = _.map(this.state.product.stock, (amount, size) => {
 			return (
 				<div className="column">
-					<button key={size} onClick={ () => this.sell(size) }>{ 'Vender ' + size }</button>
+					<button key={size} onClick={ () => this.submitSale(size) }>{ 'Vender ' + size }</button>
 				</div>
 			);
 		});
