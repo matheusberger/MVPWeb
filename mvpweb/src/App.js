@@ -93,6 +93,13 @@ class App extends React.Component {
             pathname: "/produtos",
             state: {storeUID: this.state.store}
           }}>Lista de Produtos</Link>
+          <p/>
+        </div>
+        <div>
+          <Link to={{
+            pathname: "/produtos/pesquisar",
+            state: {storeUID: this.state.store}
+          }}>Pesquisar pelo Código</Link>
         </div>
       </div>
     );
