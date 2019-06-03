@@ -56,6 +56,9 @@ export default class BrandList extends React.Component {
 		  				<label>{brand.email}</label>
 		  			</div>
 		  			<div className="brandColumn">
+		  				<label>{brand.phone}</label>
+		  			</div>
+		  			<div className="brandColumn">
 		  				<label>R${brand.rent}</label>
 		  			</div>
 		  			<div className="brandColumn">
@@ -77,6 +80,9 @@ export default class BrandList extends React.Component {
 					</div>
 					<div className="brandColumn">
 						<h2>Email</h2>
+					</div>
+					<div className="brandColumn">
+						<h2>Telefone</h2>
 					</div>
 					<div className="brandColumn">
 						<h2>Aluguel</h2>

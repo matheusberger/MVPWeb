@@ -5,6 +5,7 @@ export default class BrandForm extends React.Component {
 		name: '',
 		owner: '',
 		email: '',
+		phone: '',
 		percentage: '',
 		rent: ''
 	};
@@ -22,6 +23,7 @@ export default class BrandForm extends React.Component {
 			name: '',
 			owner: '',
 			email: '',
+			phone: '',
 			percentage: '',
 			rent: ''
 		});
@@ -48,6 +50,12 @@ export default class BrandForm extends React.Component {
 				name="email"
 				placeholder='Email de contato da marca' 
 				value={this.state.email} 
+				onChange={ e => this.change(e) }
+				/>
+				<input
+				name="phone"
+				placeholder='Telefone de contato da marca' 
+				value={this.state.phone} 
 				onChange={ e => this.change(e) }
 				/>
 				<br/>

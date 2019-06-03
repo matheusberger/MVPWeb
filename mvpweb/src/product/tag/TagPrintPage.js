@@ -8,7 +8,10 @@ export default class TagPrintPage extends React.Component {
 		return (
 			<div>
 				<div>
-					<Link to="/produtos">Voltar</Link>
+					<Link to={{
+					  pathname: "/produtos",
+					  state: {storeUID: this.props.location.state.storeUID}
+					}}>Voltar</Link>
 				</div>
 				<PrintableTagList product={this.props.location.state.product} />
 			</div>

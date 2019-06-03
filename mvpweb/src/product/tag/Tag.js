@@ -2,22 +2,27 @@ import React from 'react';
 import QRCode from 'qrcode.react';
 import ReactToPdf from "react-to-pdf";
 import _ from 'lodash';
+import './Tag.css';
 
 export class Tag extends React.Component {
 	render() {
 		return (
-			<div>
-				<p>
+			<div className="row">
+				<div className="QRCODE">
+					<QRCode value={JSON.stringify(this.props)}/>
+				</div>
+				<div className="TagInfo">
+					<br/>
 					<label>{this.props.product.brand}</label>
 					<br/>
 					<label>{this.props.product.description}</label>
 					<br/>
-					<QRCode value={JSON.stringify(this.props)}/>
+					<label>{this.props.product.key}</label>
 					<br/>
 					<label>R$ {this.props.product.price}</label>
 					<br/>
 					<label>Tamanho: {this.props.product.size}</label>
-				</p>
+				</div>
 			</div>
 		);
 	} 
@@ -45,6 +50,9 @@ export default class PrintableTagList extends React.Component {
 		});
 
 		tags = _.map(tags, (product, index) => {
+			if(!(index % 2)) {
+				console.log('multiplo de 2');
+			}
 			return <Tag key={product.key + index} product={product} />
 		});
 
@@ -55,7 +63,7 @@ export default class PrintableTagList extends React.Component {
 				        <button onClick={toPdf}>Imprimir Etiquetas!</button>
 				    )}
 				</ReactToPdf>
-				<div style={{width: 1240, height: 1754}} ref={ref}>
+				<div className="App" style={{width: 1240, height: 1754}} ref={ref}>
 					{tags}
 				</div>
 	    	</div>

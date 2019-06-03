@@ -1,0 +1,11 @@
+.QRCODE {
+  float: left;
+  width: 50%;
+  text-align: right;
+}
+
+.TagInfo {
+	float:  left;;
+	width: 50%;
+	text-align: left;
+}

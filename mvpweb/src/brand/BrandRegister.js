@@ -11,7 +11,7 @@ export default class BrandRegister extends React.Component {
 
 	onBrandSubmit = (brandData) => {
 	  	var database = firebase.database();
-	  	var brandRef = database.ref().child('marcas');
+	  	var brandRef = database.ref().child('stores').child(this.state.storeUID).child('brands');
 	  	var brandKey = brandRef.push().key;
 	  	var updates = {};
 

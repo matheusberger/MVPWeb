@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 export default class ProductForm extends React.Component {
 	numOfSizes = 1;
+	uniqueSize = false;
 
 	state = {
 		product: {
@@ -24,7 +25,13 @@ export default class ProductForm extends React.Component {
 
 	onSubmit = (e) => {
 		e.preventDefault();
-		this.props.onSubmit(this.state.product);
+		var product = JSON.parse(JSON.stringify(this.state.product));
+		
+		if(this.uniqueSize && this.numOfSizes === 1) {
+			product.stock[0].name = 'U';
+		}
+
+		this.props.onSubmit(product);
 		this.setState({
 			product: {
 				description: '',
@@ -61,6 +68,7 @@ export default class ProductForm extends React.Component {
 			return (
 				<div>
 					<input 
+					id="sizeName"
 					key={index} 
 					name='name' 
 					value={size.name} 
@@ -79,6 +87,9 @@ export default class ProductForm extends React.Component {
 
 		return (
 			<form>
+				<h2>
+					Informações do Produto
+				</h2>
 				<input
 				name="description"
 				placeholder="descrição do produto"
@@ -118,11 +129,25 @@ export default class ProductForm extends React.Component {
 				onChange={ e => this.change(e) }
 				/>
 				<br/>
-				<label>
+				<h2>
 					Tamanhos
+				</h2>
+				<label>
+					Tamanho único?
 				</label>
+				<input 
+				type="checkbox" 
+				onChange={ () => {
+					this.uniqueSize = !this.uniqueSize;
+					let button = document.getElementById("addSize");
+					let sizeName = document.getElementById("sizeName");
+
+					button.disabled = !button.disabled;
+					sizeName.disabled = !sizeName.disabled;
+				}}
+				/>
 				{sizes}
-				<button onClick={e => this.addSize(e)}>
+				<button id="addSize" onClick={e => this.addSize(e)}>
 					+
 				</button>
 				<br/>

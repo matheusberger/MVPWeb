@@ -8,4 +8,6 @@
   content: "";
   display: table;
   clear: both;
+  margin-bottom: 0.25cm;
+  margin-top: 0.25cm;
 }

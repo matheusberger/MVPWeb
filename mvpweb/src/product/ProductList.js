@@ -64,7 +64,7 @@ export default class ProductList extends React.Component {
 		  			<div className="column">
 						<Link to={{
 							pathname: "/produtos/imprimir",
-							state: {product: product}
+							state: {product: product, storeUID: this.state.storeUID}
 						}}>Imprimir Etiquetas</Link>
 					</div>
 		  		</div>
