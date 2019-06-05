@@ -2,7 +2,7 @@ import React from 'react';
 import * as firebase from 'firebase';
 import ProductForm from './ProductForm.js';
 import { Link } from 'react-router-dom';
-import nanoid from 'nanoid';
+import generate from 'nanoid/generate';
 import _ from 'lodash';
 
 export default class ProductRegister extends React.Component {
@@ -41,10 +41,13 @@ export default class ProductRegister extends React.Component {
 	}
 
 	onProductSubmit = (productData) => {
-	  	let produtcKey = nanoid(8);
+		const alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+	  	let produtcKey = generate(alphabet, 8);
 	  	var updates = {};
 
 	  	this.formatProduct(productData);
+
+	  	console.log(produtcKey);
 	  
 	  	updates['/stores/' + this.state.storeUID + '/products/' + produtcKey] = productData;
 	  	firebase.database().ref().update(updates);
