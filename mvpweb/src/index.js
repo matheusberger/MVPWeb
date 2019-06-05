@@ -11,7 +11,8 @@ import ProductList from './product/ProductList.js';
 import TagPrintPage from './product/tag/TagPrintPage.js';
 import Login from './login/Login.js';
 import BrandList from './brand/BrandList.js';
-import RefSearch from './RefSearch.js'
+import RefSearch from './sale/RefSearch.js'
+import Sales from './sale/Sales.js';
 
 var firebaseConfig = {
     apiKey: "AIzaSyCEj_PrVcaIerFMtxWfVZ7_b2nDIc0K6Mc",
@@ -37,6 +38,7 @@ ReactDOM.render(
 			<Route path="/produtos/cadastro" component={ProductRegister} />
 			<Route path="/produtos/imprimir" component={TagPrintPage} />
 			<Route path="/produtos/pesquisar" component={RefSearch} />
+			<Route path="/vendas" exact={true} component={Sales} />
 		</Switch>
 	</BrowserRouter>
 	, document.getElementById('root'));

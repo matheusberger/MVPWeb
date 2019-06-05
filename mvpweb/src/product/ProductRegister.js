@@ -46,8 +46,6 @@ export default class ProductRegister extends React.Component {
 	  	var updates = {};
 
 	  	this.formatProduct(productData);
-
-	  	console.log(produtcKey);
 	  
 	  	updates['/stores/' + this.state.storeUID + '/products/' + produtcKey] = productData;
 	  	firebase.database().ref().update(updates);
