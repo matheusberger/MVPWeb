@@ -1,24 +1,64 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import * as firebase from 'firebase';
+import * as firebase from 'firebase';
 import _ from 'lodash';
 
 export default class Sales extends React.Component {
 
-	salesRef = {};
-	productsRef = {}
+	brandsPath
+	productsPath = {};
+	salesPath = {};
 
 	state = {
+			brands: [],
+			products: [],
 			sales: [],
 			storeUID: this.props.location.state.storeUID
 	};
 
 	componentDidMount() {
-		
+		this.getBrands();
 	}
 
 	componentWillUnmount() {
 		
+	}
+
+	getBrands = () => {
+		this.brandsPath = '/stores/' + this.state.storeUID + '/brands/';
+
+		let brandsRef = firebase.database().ref(this.brandsPath);
+		brandsRef.on('child_added', snapshot => {
+			let brands = this.state.brands.slice();
+			brands.push(snapshot.val());
+
+			this.setState({
+				brands: brands,
+				products: this.state.products,
+				sales: this.state.sales,
+				storeUID: this.state.storeUID
+			});
+
+			this.getSalesForBrand(snapshot.key);
+		});
+	}
+
+	getSalesForBrand = (brandKey) => {
+		let date = new Date()
+		this.salesPath = '/stores/' + this.state.storeUID + '/sales/' + brandKey + '/' + date.getMonth();
+
+		let salesRef = firebase.database().ref(this.salesPath);
+		salesRef.on('child_added', snapshot => {
+			let sales = this.state.sales.slice();
+			sales.push(snapshot.val());
+
+			this.setState({
+				brands: this.state.brands,
+				products: this.state.products,
+				sales: sales,
+				storeUID: this.state.storeUID
+			});
+		});
 	}
 
 	render() {
