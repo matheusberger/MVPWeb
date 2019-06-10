@@ -8,6 +8,8 @@ import _ from 'lodash';
 export default class RefSearch extends React.Component {
 
 	method = '';
+	salesPath = '';
+	productPath = '';
 
 	state = {
 		key: '',
@@ -31,7 +33,7 @@ export default class RefSearch extends React.Component {
 	componentWillUnmount() {
 		if(this.state.key) {
 			var database = firebase.database();
-			database.ref().child('stores').child(this.state.storeUID).child('products').child(this.state.key).off();
+			database.ref(this.productPath).off();
 		}
 	}
 
@@ -47,8 +49,10 @@ export default class RefSearch extends React.Component {
 		e.preventDefault();
 		var database = firebase.database();
 
+		this.productPath = '/stores/' + this.state.storeUID + '/products/' + this.state.key;
+
 		if(this.state.key) {
-			let productRef = database.ref().child('stores').child(this.state.storeUID).child('products').child(this.state.key);
+			let productRef = database.ref(this.productPath);
 
 			productRef.on('value', snapShot => {
 				this.setState({
@@ -56,6 +60,9 @@ export default class RefSearch extends React.Component {
 					storeUID: this.state.storeUID,
 					product: snapShot.val()
 				});
+
+				let date = new Date();
+				this.salesPath = '/stores/' + this.state.storeUID + '/sales/' + this.state.product.brandKey + '/' + date.getMonth() + '/' + this.state.key;
 			});
 		}
 	}
@@ -63,12 +70,13 @@ export default class RefSearch extends React.Component {
 	submitSale = (size) => {
 		this.updateStock(size);
 
-		let saleRef = firebase.database().ref('/stores/' + this.state.storeUID + '/sales/' + this.state.product.brandKey + '/' + this.state.key + '/' + this.method + '/' + size);
+		let saleRef = firebase.database().ref(this.salesPath + '/' + this.method + '/' + size);
 		
+		//change to save date and size.
 		saleRef.once('value', snapshot => {
 		    var updates = {};
-		   	updates['/stores/' + this.state.storeUID + '/sales/' + this.state.product.brandKey + '/' + this.state.key + '/' + this.method + '/' + size] = snapshot.val() + 1;
-		  	updates['/stores/' + this.state.storeUID + '/products/' + this.state.key] = this.state.product;
+		   	updates[this.salesPath + '/' + this.method + '/' + size] = snapshot.val() + 1;
+		  	updates[this.productPath] = this.state.product;
 		   	firebase.database().ref().update(updates);
 		});
 
@@ -126,7 +134,7 @@ export default class RefSearch extends React.Component {
 					    		<select 
 					    		name="method"
 					    		onChange={e => this.method = e.target.value}>
-					    			<option value="" disabled>Escolha o método de pagamento</option>
+					    			<option value="">Escolha o método de pagamento</option>
 					    			<option value="card">Cartão</option>
 					    			<option value="cash">Dinheiro</option>
 					    		</select>

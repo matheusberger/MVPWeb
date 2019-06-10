@@ -6,6 +6,8 @@ import './ProductList.css'
 
 export default class ProductList extends React.Component {
 
+	productRef = {};
+
 	constructor(props) {
 		super(props);
 
@@ -22,15 +24,14 @@ export default class ProductList extends React.Component {
 	}
 
 	componentWillUnmount() {
-		var database = firebase.database();
-		database.ref().child('stores').child(this.state.storeUID).child('products').off();
+		this.productRef.off();
 	}
 
 	getProducts(updateFunction) {
 	  	var database = firebase.database();
-	  	let productRef = database.ref().child('stores').child(this.state.storeUID).child('products');
+	  	this.productRef = database.ref().child('stores').child(this.state.storeUID).child('products');
 
-	  	productRef.on('child_added', function(snapShot) {
+	  	this.productRef.on('child_added', function(snapShot) {
 	    	updateFunction(snapShot.val(), snapShot.key);
 	  	});
 	}

@@ -6,6 +6,8 @@ import './BrandList.css'
 
 export default class BrandList extends React.Component {
 
+	brandsRef = {};
+
 	constructor(props) {
 		super(props);
 
@@ -18,19 +20,19 @@ export default class BrandList extends React.Component {
 	}
 
 	componentDidMount() {
+		console.log('wtf');
 	  	this.getBrands(this.updateBrandList);
 	}
 
 	componentWillUnmount() {
-	  	var database = firebase.database();
-	  	database.ref().child('stores').child(this.state.storeUID).child('brands').off();
+	  	this.brandsRef.off();
 	}
 
 	getBrands(updateFunction) {
 	  	var database = firebase.database();
-	  	let brandsRef = database.ref().child('stores').child(this.state.storeUID).child('brands');
+	  	this.brandsRef = database.ref().child('stores').child(this.state.storeUID).child('brands');
 
-	  	brandsRef.on('child_added', function(snapShot) {
+	  	this.brandsRef.on('child_added', function(snapShot) {
 	      	updateFunction(snapShot.val(), snapShot.key);
 	  	});
 	}
