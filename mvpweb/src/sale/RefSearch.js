@@ -16,7 +16,7 @@ export default class RefSearch extends React.Component {
 	method = '';
 	salesPath = '';
 	productsPath = '/stores/' + this.state.storeUID + '/products/';
-	revenuePath = '/stores/' + this.state.storeUID + '/revenue/' + new Date().getFullYear() + '/' + new Date().getMonth();
+	revenuePath = '/stores/' + this.state.storeUID + '/revenue/' + new Date().getFullYear() + '/' + new Date().getMonth() + '/';
 
 	componentDidMount() {
 		console.log(this.productsPath);
@@ -79,11 +79,11 @@ export default class RefSearch extends React.Component {
 	}
 
 	updateRevenue = (price) => {
-		let revenueRef = firebase.database().ref(this.revenuePath);
+		let revenueRef = firebase.database().ref(this.revenuePath + this.method);
 
 		revenueRef.once('value', snapshot => {
 			var update = {};
-			update[this.revenuePath] = snapshot.val() + price;
+			update[this.revenuePath + this.method] = snapshot.val() + price;
 			firebase.database().ref().update(update);
 		});
 	}
