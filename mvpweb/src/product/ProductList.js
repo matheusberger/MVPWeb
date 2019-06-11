@@ -78,21 +78,23 @@ export default class ProductList extends React.Component {
 					<Link to="/">Página Principal</Link>
 				</div>
 				<h1> Produtos </h1>
-				<div className="row">
-					<div className="column">
-						<h2>Descrição</h2>
+				<div className="centered">
+					<div className="row">
+						<div className="column">
+							<h2>Descrição</h2>
+						</div>
+						<div className="column">
+							<h2>Marca</h2>
+						</div>
+						<div className="column">
+							<h2>Preço</h2>
+						</div>
+						<div className="column">
+							<h2>Estoque</h2>
+						</div>
 					</div>
-					<div className="column">
-						<h2>Marca</h2>
-					</div>
-					<div className="column">
-						<h2>Preço</h2>
-					</div>
-					<div className="column">
-						<h2>Estoque</h2>
-					</div>
+					{products}
 				</div>
-				{products}
 			</div>
 		);
 	}

@@ -88,8 +88,25 @@ export default class Sales extends React.Component {
 	}
 
 	getTotalValue = (product) => {
+		var total = 0;
+		let cashSales = product.sales.cash;
+		let cardSales = product.sales.card;
+
 
 		return 100;
+	}
+
+	getValue = (product, method) => {
+		var total = 0;
+		let sales = product.sales[method]
+
+		let sizes = Object.keys(sales);
+
+		sizes.forEach(size => {
+			total = total + (product.price * sales[size]);
+		})
+
+		return total;
 	}
 
 	render() {
@@ -116,8 +133,15 @@ export default class Sales extends React.Component {
 		  				</div>
 		  			</div>
 		  			<div className="column">
-						<label>R$ {this.getTotalValue(product)}</label>
-					</div>
+							<div className="row">
+								<div className="half">
+									<label>R$ {this.getValue(product, 'cash')}</label>
+								</div>
+								<div className="half">
+									<label>R$ {this.getValue(product, 'card')}</label>
+								</div>
+							</div>
+						</div>
 		  		</div>
 		  	);
 		});
@@ -128,7 +152,7 @@ export default class Sales extends React.Component {
 					<Link to="/">Página Principal</Link>
 				</div>
 				<h1> Vendas </h1>
-				<div className="App">
+				<div className="centered">
 					<div className="row">
 						<div className="column">
 							<h2>Marca</h2>
@@ -151,7 +175,15 @@ export default class Sales extends React.Component {
 							</div>
 						</div>
 						<div className="column">
-							<h2>Total</h2>
+							<div className="row">
+								<h2>Total</h2>
+								<div className="half">
+									<h3>Dinheiro</h3>
+								</div>
+								<div className="half">
+									<h3>Cartão</h3>
+								</div>
+							</div>
 						</div>
 					</div>
 					{products}

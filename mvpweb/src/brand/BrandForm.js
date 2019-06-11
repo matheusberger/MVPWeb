@@ -32,52 +32,88 @@ export default class BrandForm extends React.Component {
 	render() {
 		return (
 			<form>
-				<input
-				name="name"
-				placeholder="Nome da marca"
-				value={this.state.name} 
-				onChange={ e => this.change(e) }
-				/>
-				<br/>
-				<input
-				name="owner"
-				placeholder='Nome do(a) resposável' 
-				value={this.state.owner} 
-				onChange={ e => this.change(e) }
-				/>
-				<br/>
-				<input
-				name="email"
-				placeholder='Email de contato da marca' 
-				value={this.state.email} 
-				onChange={ e => this.change(e) }
-				/>
-				<input
-				name="phone"
-				placeholder='Telefone de contato da marca' 
-				value={this.state.phone} 
-				onChange={ e => this.change(e) }
-				/>
-				<br/>
-				<input
-				name='percentage'
-				type="number"
-				placeholder='Porcentagem que a marca paga' 
-				value={this.state.percentage} 
-				onChange={ e => this.change(e) }
-				/>
-				<label>
-					%
-				</label>
-				<br/>
-				<input
-				name='rent'
-				type="number"
-				placeholder='Valor do aluguel da marca' 
-				value={this.state.rent} 
-				onChange={ e => this.change(e) }
-				/>
-				<br/>
+				<div className="row">
+					<div className="half">
+						<label>nome da marca</label>
+					</div>
+					<div className="half">
+						<input
+						name="name"
+						placeholder="Marca legal"
+						value={this.state.name} 
+						onChange={ e => this.change(e) }
+						/>
+					</div>
+				</div>
+				<div className="row">
+					<div className="half">
+						<label>nome do resposável</label>
+					</div>
+					<div className="half">
+						<input
+						name="owner"
+						placeholder='Fulano da Silva' 
+						value={this.state.owner} 
+						onChange={ e => this.change(e) }
+						/>
+					</div>
+				</div>
+				<div className="row">
+					<div className="half">
+						<label>email de contato da marca</label>
+					</div>
+					<div className="half">
+						<input
+						name="email"
+						placeholder='marca@email.com' 
+						value={this.state.email} 
+						onChange={ e => this.change(e) }
+						/>
+					</div>
+				</div>
+				<div className="row">
+					<div className="half">
+						<label>telefone de contato da marca</label>
+					</div>
+					<div className="half">
+						<input
+						name="phone"
+						placeholder='(00) 99999-9999' 
+						value={this.state.phone} 
+						onChange={ e => this.change(e) }
+						/>
+					</div>
+				</div>
+				<div className="row">
+					<div className="half">
+						<label>porcentagem que a marca paga</label>
+					</div>
+					<div className="half">
+						<input
+						name='percentage'
+						type="number"
+						placeholder='15' 
+						value={this.state.percentage} 
+						onChange={ e => this.change(e) }
+						/>
+					<label> % </label>
+					</div>
+				</div>
+				<div className="row">
+					<div className="half">
+						<label>valor do aluguel da marca</label>
+					</div>
+					<div className="half">
+						<label>R$ </label>
+						<input
+						name='rent'
+						type="number"
+						placeholder='200' 
+						value={this.state.rent} 
+						onChange={ e => this.change(e) }
+						/>
+					</div>
+				</div>
 				<button onClick={e => this.onSubmit(e)}>
 					Cadastrar 
 				</button>

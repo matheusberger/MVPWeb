@@ -76,24 +76,26 @@ export default class BrandList extends React.Component {
 					<Link to="/">Página Principal</Link>
 				</div>
 				<h1> Marcas </h1>
-				<div className="row">
-					<div className="brandColumn">
-						<h2>Nome</h2>
+				<div className="centered">
+					<div className="row">
+						<div className="brandColumn">
+							<h2>Nome</h2>
+						</div>
+						<div className="brandColumn">
+							<h2>Email</h2>
+						</div>
+						<div className="brandColumn">
+							<h2>Telefone</h2>
+						</div>
+						<div className="brandColumn">
+							<h2>Aluguel</h2>
+						</div>
+						<div className="brandColumn">
+							<h2>Porcentagem</h2>
+						</div>
 					</div>
-					<div className="brandColumn">
-						<h2>Email</h2>
-					</div>
-					<div className="brandColumn">
-						<h2>Telefone</h2>
-					</div>
-					<div className="brandColumn">
-						<h2>Aluguel</h2>
-					</div>
-					<div className="brandColumn">
-						<h2>Porcentagem</h2>
-					</div>
+					{brands}
 				</div>
-				{brands}
 			</div>
 		);
 	}
