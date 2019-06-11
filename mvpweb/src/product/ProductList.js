@@ -75,7 +75,7 @@ export default class ProductList extends React.Component {
 		return (
 			<div>
 				<div>
-					<Link to="/">Página Principal</Link>
+					<Link to="/">voltar</Link>
 				</div>
 				<h1> Produtos </h1>
 				<div className="centered">

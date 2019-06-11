@@ -149,7 +149,7 @@ export default class Sales extends React.Component {
 		return (
 			<div>
 				<div>
-					<Link to="/">Página Principal</Link>
+					<Link to="/">voltar</Link>
 				</div>
 				<h1> Vendas </h1>
 				<div className="centered">

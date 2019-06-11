@@ -66,7 +66,7 @@ export default class ProductForm extends React.Component {
 
 		var sizes = _.map(this.state.product.stock, (size, index) => {
 			return (
-				<div>
+				<div className="row">
 					<input 
 					id="sizeName"
 					key={index} 
@@ -87,70 +87,82 @@ export default class ProductForm extends React.Component {
 
 		return (
 			<form>
-				<h2>
-					Informações do Produto
-				</h2>
-				<input
-				name="description"
-				placeholder="descrição do produto"
-				value={this.state.product.description} 
-				onChange={ e => this.change(e) }
-				/>
-				<br/>
-				<label>
-					Marca
-				</label>
-				<select 
-				name="brand"
-				placeholder="Escolha a marca"
-				onChange={e => this.change(e)}>
-				<option value="">Escolha a marca</option>
-					{brands}
-				</select>
-				<br/>
-				<label>
-					Referência/Código
-				</label>
-				<input
-				name='ref'
-				placeholder='referencia do produto'
-				value={this.state.product.ref}
-				onChange={ e => this.change(e) }
-				/>
-				<br/>
-				<label>
-					R$
-				</label>
-				<input
-				name="price"
-				type="number"
-				placeholder='preço do produto' 
-				value={this.state.product.price} 
-				onChange={ e => this.change(e) }
-				/>
-				<br/>
-				<h2>
-					Tamanhos
-				</h2>
-				<label>
-					Tamanho único?
-				</label>
-				<input 
-				type="checkbox" 
-				onChange={ () => {
-					this.uniqueSize = !this.uniqueSize;
-					let button = document.getElementById("addSize");
-					let sizeName = document.getElementById("sizeName");
+				<h2>Informações do Produto</h2>
+				<div className="row">
+					<div className="half">
+						<label>descrição</label>
+					</div>
+					<div className="half">
+						<input
+						name="description"
+						placeholder="produto bonito"
+						value={this.state.product.description} 
+						onChange={ e => this.change(e) }
+						/>
+					</div>
+				</div>
+				<div className="row">
+					<div className="half">
+						<label>marca</label>
+					</div>
+					<div className="half">
+						<select 
+						name="brand"
+						onChange={e => this.change(e)}>
+						<option value="">Escolha a marca</option>
+							{brands}
+						</select>
+					</div>
+				</div>
+				<div className="row">
+					<div className="half">
+						<label>referência/código</label>
+					</div>
+					<div className="half">
+						<input
+						name='ref'
+						placeholder='referencia do produto'
+						value={this.state.product.ref}
+						onChange={ e => this.change(e) }
+						/>
+					</div>
+				</div>
+				<div className="row">
+					<div className="half">
+						<label>preço</label>
+					</div>
+					<div className="half">
+						<label>R$ </label>
+						<input
+						name="price"
+						type="number"
+						placeholder='50.30' 
+						value={this.state.product.price} 
+						onChange={ e => this.change(e) }
+						/>
+					</div>
+				</div>
+				<h2>Tamanhos e Estoque</h2>
+				<div className="row">
+					<label>Tamanho único?</label>
+					<input 
+					type="checkbox" 
+					onChange={ () => {
+						this.uniqueSize = !this.uniqueSize;
+						let button = document.getElementById("addSize");
+						let sizeName = document.getElementById("sizeName");
 
-					button.disabled = !button.disabled;
-					sizeName.disabled = !sizeName.disabled;
-				}}
-				/>
+						button.disabled = !button.disabled;
+						sizeName.disabled = !sizeName.disabled;
+					}}
+					/>
+				</div>
 				{sizes}
-				<button id="addSize" onClick={e => this.addSize(e)}>
-					+
-				</button>
-				<br/>
+				<div className="row">
+					<button id="addSize" onClick={e => this.addSize(e)}>
+						+
+					</button>
+				</div>
 				<button onClick={e => this.onSubmit(e)}>
 					Cadastrar 
 				</button>

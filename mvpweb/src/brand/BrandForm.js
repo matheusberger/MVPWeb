@@ -32,9 +32,10 @@ export default class BrandForm extends React.Component {
 	render() {
 		return (
 			<form>
+				<h2>Informações da Marca</h2>
 				<div className="row">
 					<div className="half">
-						<label>nome da marca</label>
+						<label>nome</label>
 					</div>
 					<div className="half">
 						<input
@@ -45,6 +46,37 @@ export default class BrandForm extends React.Component {
 						/>
 					</div>
 				</div>
+				<div className="row">
+					<div className="half">
+						<label>porcentagem paga</label>
+					</div>
+					<div className="half">
+						<input
+						name='percentage'
+						type="number"
+						placeholder='15' 
+						value={this.state.percentage} 
+						onChange={ e => this.change(e) }
+						/>
+					<label> % </label>
+					</div>
+				</div>
+				<div className="row">
+					<div className="half">
+						<label>valor do aluguel</label>
+					</div>
+					<div className="half">
+						<label>R$ </label>
+						<input
+						name='rent'
+						type="number"
+						placeholder='200' 
+						value={this.state.rent} 
+						onChange={ e => this.change(e) }
+						/>
+					</div>
+				</div>
+				<h2>Informações do contato</h2>
 				<div className="row">
 					<div className="half">
 						<label>nome do resposável</label>
@@ -60,7 +92,7 @@ export default class BrandForm extends React.Component {
 				</div>
 				<div className="row">
 					<div className="half">
-						<label>email de contato da marca</label>
+						<label>email de contato</label>
 					</div>
 					<div className="half">
 						<input
@@ -73,7 +105,7 @@ export default class BrandForm extends React.Component {
 				</div>
 				<div className="row">
 					<div className="half">
-						<label>telefone de contato da marca</label>
+						<label>telefone de contato</label>
 					</div>
 					<div className="half">
 						<input
@@ -84,38 +116,8 @@ export default class BrandForm extends React.Component {
 						/>
 					</div>
 				</div>
-				<div className="row">
-					<div className="half">
-						<label>porcentagem que a marca paga</label>
-					</div>
-					<div className="half">
-						<input
-						name='percentage'
-						type="number"
-						placeholder='15' 
-						value={this.state.percentage} 
-						onChange={ e => this.change(e) }
-						/>
-					<label> % </label>
-					</div>
-				</div>
-				<div className="row">
-					<div className="half">
-						<label>valor do aluguel da marca</label>
-					</div>
-					<div className="half">
-						<label>R$ </label>
-						<input
-						name='rent'
-						type="number"
-						placeholder='200' 
-						value={this.state.rent} 
-						onChange={ e => this.change(e) }
-						/>
-					</div>
-				</div>
 				<button onClick={e => this.onSubmit(e)}>
-					Cadastrar 
+					cadastrar 
 				</button>
 			</form>
 		);

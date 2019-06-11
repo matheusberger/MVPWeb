@@ -71,13 +71,12 @@ export default class ProductRegister extends React.Component {
 	render() {
 		return (
 			<div>
-				<h1>Cadastro de Produtos</h1>
 				<div>
-					<ProductForm onSubmit={productData => this.onProductSubmit(productData)} brands={this.state.brands}/>
+					<Link to="/">voltar</Link>
 				</div>
-				<br/>
-				<div>
-					<Link to="/">Pagina Inicial</Link>
+				<h1>Cadastro de Produtos</h1>
+				<div className="centered">
+					<ProductForm onSubmit={productData => this.onProductSubmit(productData)} brands={this.state.brands}/>
 				</div>
 			</div>
 		);

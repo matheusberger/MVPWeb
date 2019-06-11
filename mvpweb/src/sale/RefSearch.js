@@ -109,7 +109,7 @@ export default class RefSearch extends React.Component {
 
 		return (
 			<div>
-				<Link to="/">Página Inicial</Link>
+				<Link to="/">voltar</Link>
 				<h1>Pesquisa por código</h1>
 				<div>
 					<form>

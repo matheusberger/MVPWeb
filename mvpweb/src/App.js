@@ -61,52 +61,53 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
+      <div>
         <h1>Olá {this.state.user.name}</h1>
-        <div>
-          <Link to="/login">Fazer Login</Link>
-          <p/>
-        </div>
-        <div>
+        <div className="centered">
+        <h2>Marcas</h2>
+        <div className="row">
           <Link to={{
             pathname: "/marcas/cadastro",
               state: {storeUID: this.state.store}
           }}>Cadastrar Marcas</Link>
           <p/>
         </div>
-        <div>
+        <div className="row">
           <Link to={{
             pathname: "/marcas",
             state: {storeUID: this.state.store}
           }}>Lista de Marcas</Link>
-          <p/>
         </div>
-        <div>
+        <h2>Produtos</h2>
+        <div className="row">
           <Link to={{
             pathname: "/produtos/cadastro",
             state: {storeUID: this.state.store}
           }}>Cadastrar Produtos</Link>
-          <p/>
         </div>
-        <div>
+        <div className="row">
           <Link to={{
             pathname: "/produtos",
             state: {storeUID: this.state.store}
           }}>Lista de Produtos</Link>
-          <p/>
         </div>
-        <div>
+        <h2>Vendas</h2>
+        <div className="row">
           <Link to={{
             pathname: "/produtos/pesquisar",
             state: {storeUID: this.state.store}
           }}>Pesquisar pelo Código</Link>
-          <p/>
         </div>
-        <div>
+        <div className="row">
           <Link to={{
             pathname: "/vendas",
             state: {storeUID: this.state.store}
           }}>Lista de Vendas</Link>
+        </div>
+        </div>
+        <h3>Sair</h3>
+        <div className="row">
+          <Link to="/login">Logout</Link>
         </div>
       </div>
     );
