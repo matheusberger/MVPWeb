@@ -28,11 +28,9 @@ export default class Login extends React.Component {
 
 	render() {
 		return (
-			<div>
-				<h1>Login</h1>
-				<br/>
+			<div className="centered">
+				<h1>Bem vindo ao Co.Junto!</h1>
 				<LoginForm onSubmit={loginData => this.onLoginSubmit(loginData)} />
-				<Link to="/">Voltar</Link>
 			</div>
 		);
 	}

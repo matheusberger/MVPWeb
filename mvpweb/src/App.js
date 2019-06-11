@@ -33,7 +33,6 @@ class App extends React.Component {
           });
           this.getStoreData();
         } else {
-          console.log('no user');
           window.location.href = "http://localhost:3000/login";
         }
     });
@@ -107,7 +106,9 @@ class App extends React.Component {
         </div>
         <h3>Sair</h3>
         <div className="row">
-          <Link to="/login">Logout</Link>
+          <button onClick={() => { firebase.auth().signOut() }}>
+            logout
+          </button>
         </div>
       </div>
     );
