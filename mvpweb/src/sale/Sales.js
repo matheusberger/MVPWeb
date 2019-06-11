@@ -2,31 +2,35 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import * as firebase from 'firebase';
 import _ from 'lodash';
+import './Sales.css';
 
 export default class Sales extends React.Component {
-
-	brandsPath
-	productsPath = {};
-	salesPath = {};
 
 	state = {
 			brands: [],
 			products: [],
-			sales: [],
+			sales: {},
 			storeUID: this.props.location.state.storeUID
 	};
+
+	brandsPath = '/stores/' + this.state.storeUID + '/brands/';
+	productsPath = 'stores/' + this.state.storeUID + '/products/';
+	salesPaths = [];
 
 	componentDidMount() {
 		this.getBrands();
 	}
 
 	componentWillUnmount() {
-		
+		firebase.database().ref(this.brandsPath).off();
+		firebase.database().ref(this.productsPath).off();
+
+		this.salesPaths.forEach( path => {
+			firebase.database().ref(path).off();
+		});
 	}
 
 	getBrands = () => {
-		this.brandsPath = '/stores/' + this.state.storeUID + '/brands/';
-
 		let brandsRef = firebase.database().ref(this.brandsPath);
 		brandsRef.on('child_added', snapshot => {
 			let brands = this.state.brands.slice();
@@ -45,12 +49,13 @@ export default class Sales extends React.Component {
 
 	getSalesForBrand = (brandKey) => {
 		let date = new Date()
-		this.salesPath = '/stores/' + this.state.storeUID + '/sales/' + brandKey + '/' + date.getMonth();
+		let path = '/stores/' + this.state.storeUID + '/sales/' + brandKey + '/' + date.getFullYear() + '/' + date.getMonth();
+		this.salesPaths.push(path);
 
-		let salesRef = firebase.database().ref(this.salesPath);
+		let salesRef = firebase.database().ref(path);
 		salesRef.on('child_added', snapshot => {
-			let sales = this.state.sales.slice();
-			sales.push(snapshot.val());
+			var sales = JSON.parse(JSON.stringify(this.state.sales));
+			sales[snapshot.key] = snapshot.val();
 
 			this.setState({
 				brands: this.state.brands,
@@ -58,7 +63,33 @@ export default class Sales extends React.Component {
 				sales: sales,
 				storeUID: this.state.storeUID
 			});
+
+			this.getProduct(snapshot.key);
 		});
+	}
+
+	getProduct = (productKey) => {
+		let productRef = firebase.database().ref(this.productsPath + productKey);
+		productRef.on('value', snapshot => {
+			var newP = snapshot.val();
+			delete newP.stock;
+			newP.sales = this.state.sales[productKey];
+
+			let products = this.state.products.slice();
+			products.push(newP);
+
+			this.setState({
+				brands: this.state.brands,
+				products: products,
+				sales: this.state.sales,
+				storeUID: this.state.storeUID
+			});
+		});
+	}
+
+	getTotalValue = (product) => {
+
+		return 100;
 	}
 
 	render() {
@@ -72,13 +103,20 @@ export default class Sales extends React.Component {
 		  				<label>{product.description}</label>
 		  			</div>
 		  			<div className="column">
-		  				<label>R${product.price}</label>
+		  				<label>R$ {product.price}</label>
 		  			</div>
 		  			<div className="column">
-		  				<label>{JSON.stringify(product.stock)}</label>
+		  				<div className="row">
+		  					<div className="half">
+		  						<label>{JSON.stringify(product.sales.cash)}</label>
+		  					</div>
+		  					<div className="half">
+		  						<label>{JSON.stringify(product.sales.card)}</label>
+		  					</div>
+		  				</div>
 		  			</div>
 		  			<div className="column">
-						<label>R${}</label>
+						<label>R$ {this.getTotalValue(product)}</label>
 					</div>
 		  		</div>
 		  	);
@@ -90,24 +128,34 @@ export default class Sales extends React.Component {
 					<Link to="/">Página Principal</Link>
 				</div>
 				<h1> Vendas </h1>
-				<div className="row">
-					<div className="column">
-						<h2>Marca</h2>
+				<div className="App">
+					<div className="row">
+						<div className="column">
+							<h2>Marca</h2>
+						</div>
+						<div className="column">
+							<h2>Descrição</h2>
+						</div>
+						<div className="column">
+							<h2>Preço</h2>
+						</div>
+						<div className="column">
+							<div className="row">
+								<h2>Vendas</h2>
+								<div className="half">
+									<h3>Dinheiro</h3>
+								</div>
+								<div className="half">
+									<h3>Cartão</h3>
+								</div>
+							</div>
+						</div>
+						<div className="column">
+							<h2>Total</h2>
+						</div>
 					</div>
-					<div className="column">
-						<h2>Descrição</h2>
-					</div>
-					<div className="column">
-						<h2>Preço</h2>
-					</div>
-					<div className="column">
-						<h2>Quantidade</h2>
-					</div>
-					<div className="column">
-						<h2>Total</h2>
-					</div>
+					{products}
 				</div>
-				{products}
 			</div>
 		);
 	}

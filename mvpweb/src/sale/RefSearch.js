@@ -62,25 +62,25 @@ export default class RefSearch extends React.Component {
 				});
 
 				let date = new Date();
-				this.salesPath = '/stores/' + this.state.storeUID + '/sales/' + this.state.product.brandKey + '/' + date.getMonth() + '/' + this.state.key;
+				this.salesPath = '/stores/' + this.state.storeUID + '/sales/' + this.state.product.brandKey + '/' + date.getFullYear() + '/' + date.getMonth() + '/' + this.state.key;
 			});
 		}
 	}
 
 	submitSale = (size) => {
-		this.updateStock(size);
+	  	if(this.method) {
+	  		this.updateStock(size);
 
-		let saleRef = firebase.database().ref(this.salesPath + '/' + this.method + '/' + size);
-		
-		//change to save date and size.
-		saleRef.once('value', snapshot => {
-		    var updates = {};
-		   	updates[this.salesPath + '/' + this.method + '/' + size] = snapshot.val() + 1;
-		  	updates[this.productPath] = this.state.product;
-		   	firebase.database().ref().update(updates);
-		});
-
-	  	
+	  		let saleRef = firebase.database().ref(this.salesPath + '/' + this.method + '/' + size);
+	  		
+	  		//change to save date and size.
+	  		saleRef.once('value', snapshot => {
+	  		    var updates = {};
+	  		   	updates[this.salesPath + '/' + this.method + '/' + size] = snapshot.val() + 1;
+	  		  	updates[this.productPath] = this.state.product;
+	  		   	firebase.database().ref().update(updates);
+	  		});
+	  	}
 	}
 
 	updateStock = (size) => {
