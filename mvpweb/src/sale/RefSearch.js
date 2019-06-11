@@ -7,23 +7,19 @@ import _ from 'lodash';
 
 export default class RefSearch extends React.Component {
 
-	method = '';
-	salesPath = '';
-	productPath = '';
-
 	state = {
 		key: '',
-		storeUID: '',
+		storeUID: this.props.location.state.storeUID,
 		product: {}
 	};
 
-	componentDidMount() {
-		this.setState({
-			key: this.state.key,
-			storeUID: this.props.location.state.storeUID,
-			product: this.state.product
-		});
+	method = '';
+	salesPath = '';
+	productsPath = '/stores/' + this.state.storeUID + '/products/';
+	revenuePath = '/stores/' + this.state.storeUID + '/revenue/' + new Date().getFullYear() + '/' + new Date().getMonth();
 
+	componentDidMount() {
+		console.log(this.productsPath);
 		var button = document.getElementById("sellButton");
 		if(this.state.product !== {}) {
 			button.disabled = false;
@@ -49,10 +45,8 @@ export default class RefSearch extends React.Component {
 		e.preventDefault();
 		var database = firebase.database();
 
-		this.productPath = '/stores/' + this.state.storeUID + '/products/' + this.state.key;
-
 		if(this.state.key) {
-			let productRef = database.ref(this.productPath);
+			let productRef = database.ref(this.productsPath + this.state.key);
 
 			productRef.on('value', snapShot => {
 				this.setState({
@@ -77,10 +71,21 @@ export default class RefSearch extends React.Component {
 	  		saleRef.once('value', snapshot => {
 	  		    var updates = {};
 	  		   	updates[this.salesPath + '/' + this.method + '/' + size] = snapshot.val() + 1;
-	  		  	updates[this.productPath] = this.state.product;
+	  		  	updates[this.productsPath + this.state.key] = this.state.product;
 	  		   	firebase.database().ref().update(updates);
+	  		   	this.updateRevenue(this.state.product.price);
 	  		});
 	  	}
+	}
+
+	updateRevenue = (price) => {
+		let revenueRef = firebase.database().ref(this.revenuePath);
+
+		revenueRef.once('value', snapshot => {
+			var update = {};
+			update[this.revenuePath] = snapshot.val() + price;
+			firebase.database().ref().update(update);
+		});
 	}
 
 	updateStock = (size) => {

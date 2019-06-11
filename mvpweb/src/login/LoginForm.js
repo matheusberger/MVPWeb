@@ -21,14 +21,18 @@ export default class LoginForm extends React.Component {
 		return (
 			<form>
 				<div className="row">
+					<label>email</label>
+					<br/>
 					<input
 					name="email"
-					placeholder="email cadastrado"
+					placeholder="loja@email.com"
 					value={this.state.email} 
 					onChange={ e => this.change(e) }
 					/>
 				</div>
 				<div className="row">
+					<label>senha</label>
+					<br/>
 					<input
 					name="password"
 					type='password'

@@ -87,12 +87,8 @@ export default class Sales extends React.Component {
 		});
 	}
 
-	getTotalValue = (product) => {
-		var total = 0;
-		let cashSales = product.sales.cash;
-		let cardSales = product.sales.card;
-
-
+	getTotalRevenue = () => {
+		//get total store revenue for this month
 		return 100;
 	}
 
