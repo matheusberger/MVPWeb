@@ -1,11 +1,44 @@
 .QRCODE {
   float: left;
-  width: 50%;
-  text-align: right;
+  width: 40%;
+  
+  padding: 15px;
+  padding-right: 7.5px;
 }
 
 .TagInfo {
 	float:  left;;
-	width: 50%;
+	width: 40%;
+	height: 131px;
+	vertical-align: middle;
 	text-align: left;
+	padding: 15px;
+	padding-left: 7.5px;
+}
+
+.Tag {
+	content: "";
+	display: table;
+	clear: both;
+	border-style: dashed;
+	border-width: thin;
+	border-radius: 10px;
+	margin: 15px;
+}
+
+.TagRow:after {
+	content: "";
+	display: table;
+	clear: both;
+	padding: 2.5px;
+}
+
+.Page {
+	margin: 30px;
+	text-align: center;
+	background-color: #FFFFFF;
+}
+
+.unfocused {
+	background-color: #BBBBBB;
 }

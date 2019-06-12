@@ -6,7 +6,7 @@ export default class TagPrintPage extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div className="unfocused">
 				<div>
 					<Link to={{
 					  pathname: "/produtos",
