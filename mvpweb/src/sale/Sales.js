@@ -10,7 +10,9 @@ export default class Sales extends React.Component {
 			brands: [],
 			products: [],
 			sales: {},
-			storeUID: this.props.location.state.storeUID
+			storeUID: this.props.location.state.storeUID,
+			date: new Date().getFullYear() + '/' + new Date().getMonth(),
+			revenue: {}
 	};
 
 	brandsPath = '/stores/' + this.state.storeUID + '/brands/';
@@ -19,6 +21,7 @@ export default class Sales extends React.Component {
 
 	componentDidMount() {
 		this.getBrands();
+		this.getTotalRevenue();
 	}
 
 	componentWillUnmount() {
@@ -36,20 +39,16 @@ export default class Sales extends React.Component {
 			let brands = this.state.brands.slice();
 			brands.push(snapshot.val());
 
-			this.setState({
-				brands: brands,
-				products: this.state.products,
-				sales: this.state.sales,
-				storeUID: this.state.storeUID
-			});
+			let state = JSON.parse(JSON.stringify(this.state));
+			state.brands = brands;
 
+			this.setState(state);
 			this.getSalesForBrand(snapshot.key);
 		});
 	}
 
 	getSalesForBrand = (brandKey) => {
-		let date = new Date()
-		let path = '/stores/' + this.state.storeUID + '/sales/' + brandKey + '/' + date.getFullYear() + '/' + date.getMonth();
+		let path = '/stores/' + this.state.storeUID + '/sales/' + brandKey + '/' + this.state.date;
 		this.salesPaths.push(path);
 
 		let salesRef = firebase.database().ref(path);
@@ -57,13 +56,10 @@ export default class Sales extends React.Component {
 			var sales = JSON.parse(JSON.stringify(this.state.sales));
 			sales[snapshot.key] = snapshot.val();
 
-			this.setState({
-				brands: this.state.brands,
-				products: this.state.products,
-				sales: sales,
-				storeUID: this.state.storeUID
-			});
-
+			let state = JSON.parse(JSON.stringify(this.state));
+			state.sales = sales;
+			
+			this.setState(state);
 			this.getProduct(snapshot.key);
 		});
 	}
@@ -78,29 +74,37 @@ export default class Sales extends React.Component {
 			let products = this.state.products.slice();
 			products.push(newP);
 
-			this.setState({
-				brands: this.state.brands,
-				products: products,
-				sales: this.state.sales,
-				storeUID: this.state.storeUID
-			});
+			let state = JSON.parse(JSON.stringify(this.state));
+			state.products = products;
+
+			this.setState(state);
 		});
 	}
 
 	getTotalRevenue = () => {
-		//get total store revenue for this month
-		return 100;
+		let revenueRef = firebase.database().ref('/stores/' + this.state.storeUID + '/revenue/' + this.state.date);
+
+		revenueRef.once('value', snapshot => {
+			let revenue = snapshot.val();
+			
+			let state = JSON.parse(JSON.stringify(this.state));
+			state.revenue = revenue;
+
+			this.setState(state);
+		});
 	}
 
 	getValue = (product, method) => {
 		var total = 0;
 		let sales = product.sales[method]
 
-		let sizes = Object.keys(sales);
+		if(sales) {
+			let sizes = Object.keys(sales);
 
-		sizes.forEach(size => {
-			total = total + (product.price * sales[size]);
-		})
+			sizes.forEach(size => {
+				total = total + (product.price * sales[size]);
+			})
+		}
 
 		return total;
 	}
@@ -183,6 +187,23 @@ export default class Sales extends React.Component {
 						</div>
 					</div>
 					{products}
+					<div className="row">
+						<h2>Total do Mês</h2>
+						<div className="half">
+							<h3>Dinheiro</h3>
+						</div>
+						<div className="half">
+							<h3>Cartão</h3>
+						</div>
+					</div>
+					<div className="row">
+						<div className="half">
+							R$ {this.state.revenue.cash}
+						</div>
+						<div className="half">
+							R$ {this.state.revenue.card}
+						</div>
+					</div>
 				</div>
 			</div>
 		);

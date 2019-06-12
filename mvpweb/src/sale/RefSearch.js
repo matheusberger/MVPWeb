@@ -19,7 +19,6 @@ export default class RefSearch extends React.Component {
 	revenuePath = '/stores/' + this.state.storeUID + '/revenue/' + new Date().getFullYear() + '/' + new Date().getMonth() + '/';
 
 	componentDidMount() {
-		console.log(this.productsPath);
 		var button = document.getElementById("sellButton");
 		if(this.state.product !== {}) {
 			button.disabled = false;
@@ -126,29 +125,45 @@ export default class RefSearch extends React.Component {
 					</form>
 				</div>
 				<h2>Produto</h2>
-				<div className="row">
-					<div className="column">
-						<label>{this.state.product.description}</label>
+				<div className="centered">
+					<div className="row">
+						<div className="column">
+							<h3>Descrição</h3>
+						</div>
+						<div className="column">
+							<h3>Preço</h3>
+						</div>
+						<div className="column">
+							<h3>Estoque</h3>
+						</div>
 					</div>
-					<div  className="column">
-						<label>{JSON.stringify(this.state.product.stock)}</label>
-					</div>
-					<div id="sellButton" className="column">
-						<Popup trigger={<button> Vender</button>} position="right center">
-					    	<div>
-					    		<select 
-					    		name="method"
-					    		onChange={e => this.method = e.target.value}>
-					    			<option value="">Escolha o método de pagamento</option>
-					    			<option value="card">Cartão</option>
-					    			<option value="cash">Dinheiro</option>
-					    		</select>
-					    		<br/>
-					    		<div className="row">
-					    			{saleButtons}
-					    		</div>
-					    	</div>
-						</Popup>
+					<div className="row">
+						<div className="column">
+							<label>{this.state.product.description}</label>
+						</div>
+						<div className="column">
+							<label>R$ {this.state.product.price}</label>
+						</div>
+						<div  className="column">
+							<label>{JSON.stringify(this.state.product.stock)}</label>
+						</div>
+						<div id="sellButton" className="column">
+							<Popup trigger={<button> Vender</button>} position="right center">
+						    	<div>
+						    		<select 
+						    		name="method"
+						    		onChange={e => this.method = e.target.value}>
+						    			<option value="">Escolha o método de pagamento</option>
+						    			<option value="card">Cartão</option>
+						    			<option value="cash">Dinheiro</option>
+						    		</select>
+						    		<br/>
+						    		<div className="row">
+						    			{saleButtons}
+						    		</div>
+						    	</div>
+							</Popup>
+						</div>
 					</div>
 				</div>
 			</div>
